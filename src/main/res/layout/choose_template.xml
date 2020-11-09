@@ -50,6 +50,7 @@
             android:id="@+id/choose_template_cancel"
             android:layout_marginEnd="30dp"
             android:text="@string/common_cancel"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
