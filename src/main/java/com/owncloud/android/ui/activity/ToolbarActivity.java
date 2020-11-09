@@ -40,6 +40,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
+import com.owncloud.android.MainApp;
 import com.owncloud.android.R;
 import com.owncloud.android.datamodel.FileDataStorageManager;
 import com.owncloud.android.datamodel.OCFile;
@@ -96,6 +97,8 @@ public abstract class ToolbarActivity extends BaseActivity {
 
         if (showSortListButtonGroup) {
             findViewById(R.id.sort_list_button_group).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.sort_list_button_group).setVisibility(View.GONE);
         }
 
         this.isHomeSearchToolbarShow = isHomeSearchToolbarShow;
@@ -133,12 +136,20 @@ public abstract class ToolbarActivity extends BaseActivity {
         String title;
         boolean isRoot = isRoot(chosenFile);
 
-        title = isRoot ? ThemeUtils.getDefaultDisplayNameForRootFolder(this) : chosenFile.getFileName();
-        updateActionBarTitleAndHomeButtonByString(title);
+        title = isRoot ? getDefaultDisplayName() : chosenFile.getFileName();
+        if (MainApp.isOnlyOnDevice() && "/".equals(title)) {
+            updateActionBarTitleAndHomeButtonByString(MainApp.getAppContext().getString(R.string.drawer_item_on_device));
+        } else {
+            updateActionBarTitleAndHomeButtonByString(title);
+        }
 
         if (mAppBar != null) {
             showHomeSearchToolbar(title, isRoot);
         }
+    }
+
+    protected String getDefaultDisplayName() {
+        return ThemeUtils.getDefaultDisplayNameForRootFolder(this);
     }
 
     public void showSearchView() {
@@ -155,7 +166,7 @@ public abstract class ToolbarActivity extends BaseActivity {
 
     private void showHomeSearchToolbar(String title, boolean isRoot) {
         showHomeSearchToolbar(isHomeSearchToolbarShow && isRoot);
-        mSearchText.setText(getString(R.string.appbar_search_in, title));
+        mSearchText.setText(getString(R.string.appbar_search_in_title));
     }
 
     @SuppressLint("PrivateResource")
@@ -186,7 +197,7 @@ public abstract class ToolbarActivity extends BaseActivity {
     /**
      * Updates title bar and home buttons (state and icon).
      */
-    protected void updateActionBarTitleAndHomeButtonByString(String title) {
+    public void updateActionBarTitleAndHomeButtonByString(String title) {
         String titleToSet = getString(R.string.app_name);    // default
 
         if (title != null) {

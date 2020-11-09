@@ -396,9 +396,7 @@ public class PreviewImageFragment extends FileFragment implements Injectable {
                 menu.findItem(R.id.action_sync_file),
                 menu.findItem(R.id.action_select_all),
                 menu.findItem(R.id.action_move),
-                menu.findItem(R.id.action_copy),
-                menu.findItem(R.id.action_favorite),
-                menu.findItem(R.id.action_unset_favorite)
+                menu.findItem(R.id.action_copy)
         );
 
         if (getFile().isSharedWithMe() && !getFile().canReshare()) {
@@ -443,9 +441,9 @@ public class PreviewImageFragment extends FileFragment implements Injectable {
                 containerActivity.getFileOperationsHelper().syncFile(getFile());
                 return true;
 
-            case R.id.action_set_as_wallpaper:
-                containerActivity.getFileOperationsHelper().setPictureAs(getFile(), getImageView());
-                return true;
+//            case R.id.action_set_as_wallpaper:
+//                containerActivity.getFileOperationsHelper().setPictureAs(getFile(), getImageView());
+//                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

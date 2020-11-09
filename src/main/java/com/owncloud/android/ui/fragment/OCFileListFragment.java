@@ -136,18 +136,18 @@ import static com.owncloud.android.datamodel.OCFile.ROOT_PATH;
 import static com.owncloud.android.utils.DisplayUtils.openSortingOrderDialogFragment;
 
 /**
- * A Fragment that lists all files and folders in a given path.
- * TODO refactor to get rid of direct dependency on FileDisplayActivity
+ * A Fragment that lists all files and folders in a given path. TODO refactor to get rid of direct dependency on
+ * FileDisplayActivity
  */
 public class OCFileListFragment extends ExtendedListFragment implements
-        OCFileListFragmentInterface,
-        OCFileListBottomSheetActions,
-        Injectable {
+    OCFileListFragmentInterface,
+    OCFileListBottomSheetActions,
+    Injectable {
 
     protected static final String TAG = OCFileListFragment.class.getSimpleName();
 
     private static final String MY_PACKAGE = OCFileListFragment.class.getPackage() != null ?
-            OCFileListFragment.class.getPackage().getName() : "com.owncloud.android.ui.fragment";
+        OCFileListFragment.class.getPackage().getName() : "com.owncloud.android.ui.fragment";
 
     public final static String ARG_ONLY_FOLDERS_CLICKABLE = MY_PACKAGE + ".ONLY_FOLDERS_CLICKABLE";
     public final static String ARG_FILE_SELECTABLE = MY_PACKAGE + ".FILE_SELECTABLE";
@@ -197,7 +197,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
     protected String mLimitToMimeType;
     private FloatingActionButton mFabMain;
 
-    @Inject DeviceInfo deviceInfo;
+    public @Inject DeviceInfo deviceInfo;
 
     protected enum MenuItemAddRemove {
         DO_NOTHING,
@@ -254,7 +254,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
         } catch (ClassCastException e) {
             throw new IllegalArgumentException(context.toString() + " must implement " +
-                    FileFragment.ContainerActivity.class.getSimpleName(), e);
+                                                   FileFragment.ContainerActivity.class.getSimpleName(), e);
         }
         try {
             setOnRefreshListener((OnEnforceableRefreshListener) context);
@@ -274,8 +274,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         if (savedInstanceState != null
-                && Parcels.unwrap(savedInstanceState.getParcelable(KEY_CURRENT_SEARCH_TYPE)) != null &&
-                Parcels.unwrap(savedInstanceState.getParcelable(OCFileListFragment.SEARCH_EVENT)) != null) {
+            && Parcels.unwrap(savedInstanceState.getParcelable(KEY_CURRENT_SEARCH_TYPE)) != null &&
+            Parcels.unwrap(savedInstanceState.getParcelable(OCFileListFragment.SEARCH_EVENT)) != null) {
             searchFragment = true;
             currentSearchType = Parcels.unwrap(savedInstanceState.getParcelable(KEY_CURRENT_SEARCH_TYPE));
             searchEvent = Parcels.unwrap(savedInstanceState.getParcelable(OCFileListFragment.SEARCH_EVENT));
@@ -357,7 +357,6 @@ public class OCFileListFragment extends ExtendedListFragment implements
             setFabVisible(false);
         } else {
             setFabVisible(true);
-            registerFabListener();
         }
 
         if (getArguments() == null) {
@@ -394,7 +393,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
             FileDisplayActivity fileDisplayActivity = (FileDisplayActivity) fragmentActivity;
             fileDisplayActivity.updateActionBarTitleAndHomeButton(fileDisplayActivity.getCurrentDir());
         }
-        listDirectory(false, false);
+        listDirectory(MainApp.isOnlyOnDevice(), false);
     }
 
     protected void prepareCurrentSearch(SearchEvent event) {
@@ -404,11 +403,12 @@ public class OCFileListFragment extends ExtendedListFragment implements
                 case FILE_SEARCH:
                     currentSearchType = SearchType.FILE_SEARCH;
                     break;
-
                 case FAVORITE_SEARCH:
                     currentSearchType = SearchType.FAVORITE_SEARCH;
                     break;
-
+                case PHOTO_SEARCH:
+                    currentSearchType = SearchType.PHOTO_SEARCH;
+                    break;
                 case RECENTLY_MODIFIED_SEARCH:
                     currentSearchType = SearchType.RECENTLY_MODIFIED_SEARCH;
                     break;
@@ -426,27 +426,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
     }
 
-    /**
-     * register listener on FAB.
-     */
-    public void registerFabListener() {
-        FileActivity activity = (FileActivity) getActivity();
-
-        if (mFabMain != null) { // is not available in FolderPickerActivity
-            ThemeUtils.colorFloatingActionButton(mFabMain, R.drawable.ic_plus, requireContext());
-            mFabMain.setOnClickListener(v -> new OCFileListBottomSheetDialog(activity,
-                                                                             this,
-                                                                             deviceInfo,
-                                                                             accountManager.getUser(),
-                                                                             getCurrentFile())
-                .show());
-        }
-    }
-
     @Override
     public void createFolder() {
         CreateFolderDialogFragment.newInstance(mFile)
-                .show(getActivity().getSupportFragmentManager(), DIALOG_CREATE_FOLDER);
+            .show(getActivity().getSupportFragmentManager(), DIALOG_CREATE_FOLDER);
     }
 
     @Override
@@ -456,9 +439,9 @@ public class OCFileListFragment extends ExtendedListFragment implements
         action.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 
         getActivity().startActivityForResult(
-                Intent.createChooser(action, getString(R.string.upload_chooser_title)),
-                FileDisplayActivity.REQUEST_CODE__SELECT_CONTENT_FROM_APPS
-        );
+            Intent.createChooser(action, getString(R.string.upload_chooser_title)),
+            FileDisplayActivity.REQUEST_CODE__SELECT_CONTENT_FROM_APPS
+                                            );
     }
 
     @Override
@@ -476,10 +459,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
     @Override
     public void uploadFiles() {
         UploadFilesActivity.startUploadActivityForResult(
-                getActivity(),
-                ((FileActivity) getActivity()).getAccount(),
-                FileDisplayActivity.REQUEST_CODE__SELECT_FILES_FROM_FILE_SYSTEM
-        );
+            getActivity(),
+            ((FileActivity) getActivity()).getAccount(),
+            FileDisplayActivity.REQUEST_CODE__SELECT_FILES_FROM_FILE_SYSTEM
+                                                        );
     }
 
     @Override
@@ -545,21 +528,21 @@ public class OCFileListFragment extends ExtendedListFragment implements
     public void newDocument() {
         ChooseRichDocumentsTemplateDialogFragment.newInstance(mFile,
                                                               ChooseRichDocumentsTemplateDialogFragment.Type.DOCUMENT)
-                .show(requireActivity().getSupportFragmentManager(), DIALOG_CREATE_DOCUMENT);
+            .show(requireActivity().getSupportFragmentManager(), DIALOG_CREATE_DOCUMENT);
     }
 
     @Override
     public void newSpreadsheet() {
         ChooseRichDocumentsTemplateDialogFragment.newInstance(mFile,
                                                               ChooseRichDocumentsTemplateDialogFragment.Type.SPREADSHEET)
-                .show(requireActivity().getSupportFragmentManager(), DIALOG_CREATE_DOCUMENT);
+            .show(requireActivity().getSupportFragmentManager(), DIALOG_CREATE_DOCUMENT);
     }
 
     @Override
     public void newPresentation() {
         ChooseRichDocumentsTemplateDialogFragment.newInstance(mFile,
                                                               ChooseRichDocumentsTemplateDialogFragment.Type.PRESENTATION)
-                .show(requireActivity().getSupportFragmentManager(), DIALOG_CREATE_DOCUMENT);
+            .show(requireActivity().getSupportFragmentManager(), DIALOG_CREATE_DOCUMENT);
     }
 
     @Override
@@ -580,8 +563,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
      * <p>
      * Manages input from the user when one or more files or folders are selected in the list.
      * <p>
-     * Also listens to changes in navigation drawer to hide and recover multiple selection when it's opened
-     * and closed.
+     * Also listens to changes in navigation drawer to hide and recover multiple selection when it's opened and closed.
      */
     private class MultiChoiceModeListener implements AbsListView.MultiChoiceModeListener, DrawerLayout.DrawerListener {
 
@@ -608,8 +590,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
 
         /**
-         * When the navigation drawer is closed, action mode is recovered in the same state as was
-         * when the drawer was (started to be) opened.
+         * When the navigation drawer is closed, action mode is recovered in the same state as was when the drawer was
+         * (started to be) opened.
          *
          * @param drawerView Navigation drawer just closed.
          */
@@ -628,8 +610,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
 
         /**
-         * If the action mode is active when the navigation drawer starts to move, the action
-         * mode is closed and the selection stored to be recovered when the drawer is closed.
+         * If the action mode is active when the navigation drawer starts to move, the action mode is closed and the
+         * selection stored to be recovered when the drawer is closed.
          *
          * @param newState One of STATE_IDLE, STATE_DRAGGING or STATE_SETTLING.
          */
@@ -637,7 +619,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
         public void onDrawerStateChanged(int newState) {
             if (DrawerLayout.STATE_DRAGGING == newState && mActiveActionMode != null) {
                 mSelectionWhenActionModeClosedByDrawer.addAll(((OCFileListAdapter) getRecyclerView().getAdapter())
-                        .getCheckedItems());
+                                                                  .getCheckedItems());
                 mActiveActionMode.finish();
                 mActionModeClosedByDrawer = true;
             }
@@ -745,7 +727,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
         public void loadStateFrom(Bundle savedInstanceState) {
             mActionModeClosedByDrawer = savedInstanceState.getBoolean(KEY_ACTION_MODE_CLOSED_BY_DRAWER,
-                    mActionModeClosedByDrawer);
+                                                                      mActionModeClosedByDrawer);
         }
     }
 
@@ -798,16 +780,16 @@ public class OCFileListFragment extends ExtendedListFragment implements
         switch (menuItemAddRemoveValue) {
             case ADD_GRID_AND_SORT_WITH_SEARCH:
                 mSwitchGridViewButton.setVisibility(View.VISIBLE);
-                mSortButton.setVisibility(View.VISIBLE);
+//                mSortButton.setVisibility(View.VISIBLE);
                 break;
 
             case REMOVE_SORT:
-                mSortButton.setVisibility(View.GONE);
+//                mSortButton.setVisibility(View.GONE);
                 break;
 
             case REMOVE_GRID_AND_SORT:
                 menu.removeItem(R.id.action_search);
-                mSortButton.setVisibility(View.GONE);
+//                mSortButton.setVisibility(View.GONE);
                 mSwitchGridViewButton.setVisibility(View.GONE);
                 break;
 
@@ -820,10 +802,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
     /**
      * Call this, when the user presses the up button.
-     *
-     * Tries to move up the current folder one level. If the parent folder was removed from the
-     * database, it continues browsing up until finding an existing folders.
-     *
+     * <p>
+     * Tries to move up the current folder one level. If the parent folder was removed from the database, it continues
+     * browsing up until finding an existing folders.
+     * <p>
      * return       Count of folder levels browsed up.
      */
     public int onBrowseUp() {
@@ -837,7 +819,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
             if (mFile.getParentId() != FileDataStorageManager.ROOT_PARENT_ID) {
                 parentPath = new File(mFile.getRemotePath()).getParent();
                 parentPath = parentPath.endsWith(OCFile.PATH_SEPARATOR) ? parentPath :
-                        parentPath + OCFile.PATH_SEPARATOR;
+                    parentPath + OCFile.PATH_SEPARATOR;
                 parentDir = storageManager.getFileByPath(parentPath);
                 moveCount++;
             } else {
@@ -846,7 +828,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
             while (parentDir == null) {
                 parentPath = new File(parentPath).getParent();
                 parentPath = parentPath.endsWith(OCFile.PATH_SEPARATOR) ? parentPath :
-                        parentPath + OCFile.PATH_SEPARATOR;
+                    parentPath + OCFile.PATH_SEPARATOR;
                 parentDir = storageManager.getFileByPath(parentPath);
                 moveCount++;
             }   // exit is granted because storageManager.getFileByPath("/") never returns null
@@ -866,6 +848,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
     /**
      * Will toggle a file selection status from the action mode
+     *
      * @param file The concerned OCFile by the selection/deselection
      */
     private void toggleItemToCheckedList(OCFile file) {
@@ -879,6 +862,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
     /**
      * Will update (invalidate) the action mode adapter/mode to refresh an item selection change
+     *
      * @param file The concerned OCFile to refresh in adapter
      */
     private void updateActionModeFile(OCFile file) {
@@ -951,11 +935,11 @@ public class OCFileListFragment extends ExtendedListFragment implements
                             mHideFab = false;
 
                             if (mContainerActivity instanceof FolderPickerActivity &&
-                                    ((FolderPickerActivity) mContainerActivity)
-                                            .isDoNotEnterEncryptedFolder()) {
+                                ((FolderPickerActivity) mContainerActivity)
+                                    .isDoNotEnterEncryptedFolder()) {
                                 Snackbar.make(getRecyclerView(),
-                                        R.string.copy_move_to_encrypted_folder_not_supported,
-                                        Snackbar.LENGTH_LONG).show();
+                                              R.string.copy_move_to_encrypted_folder_not_supported,
+                                              Snackbar.LENGTH_LONG).show();
                             } else {
                                 listDirectory(file, MainApp.isOnlyOnDevice(), false);
                                 // then, notify parent activity to let it update its state and view
@@ -1043,7 +1027,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
                         }
                     }
                 }
-        } else {
+            } else {
                 Log_OC.d(TAG, "Null object in ListAdapter!");
             }
         }
@@ -1052,8 +1036,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SetupEncryptionDialogFragment.SETUP_ENCRYPTION_REQUEST_CODE &&
-                resultCode == SetupEncryptionDialogFragment.SETUP_ENCRYPTION_RESULT_CODE &&
-                data.getBooleanExtra(SetupEncryptionDialogFragment.SUCCESS, false)) {
+            resultCode == SetupEncryptionDialogFragment.SETUP_ENCRYPTION_RESULT_CODE &&
+            data.getBooleanExtra(SetupEncryptionDialogFragment.SUCCESS, false)) {
 
             int position = data.getIntExtra(SetupEncryptionDialogFragment.ARG_POSITION, -1);
             OCFile file = mAdapter.getItem(position);
@@ -1073,7 +1057,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
     /**
      * Start the appropriate action(s) on the currently selected files given menu selected by the user.
      *
-     * @param item       MenuItem selected by the user
+     * @param item         MenuItem selected by the user
      * @param checkedFiles List of files selected by the user on which the action should be performed
      * @return 'true' if the menu selection started any action, 'false' otherwise.
      */
@@ -1131,10 +1115,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
                     mContainerActivity.showSortListGroup(false);
                     return true;
                 }
-                case R.id.action_set_as_wallpaper: {
-                    mContainerActivity.getFileOperationsHelper().setPictureAs(singleFile, getView());
-                    return true;
-                }
+//                case R.id.action_set_as_wallpaper: {
+//                    mContainerActivity.getFileOperationsHelper().setPictureAs(singleFile, getView());
+//                    return true;
+//                }
                 case R.id.action_encrypted: {
                     mContainerActivity.getFileOperationsHelper().toggleEncryption(singleFile, true);
                     return true;
@@ -1163,14 +1147,14 @@ public class OCFileListFragment extends ExtendedListFragment implements
                 ((FileDisplayActivity) mContainerActivity).cancelTransference(checkedFiles);
                 return true;
             }
-            case R.id.action_favorite: {
-                mContainerActivity.getFileOperationsHelper().toggleFavoriteFiles(checkedFiles, true);
-                return true;
-            }
-            case R.id.action_unset_favorite: {
-                mContainerActivity.getFileOperationsHelper().toggleFavoriteFiles(checkedFiles, false);
-                return true;
-            }
+//            case R.id.action_favorite: {
+//                mContainerActivity.getFileOperationsHelper().toggleFavoriteFiles(checkedFiles, true);
+//                return true;
+//            }
+//            case R.id.action_unset_favorite: {
+//                mContainerActivity.getFileOperationsHelper().toggleFavoriteFiles(checkedFiles, false);
+//                return true;
+//            }
             case R.id.action_move: {
                 Intent action = new Intent(getActivity(), FolderPickerActivity.class);
                 action.putParcelableArrayListExtra(FolderPickerActivity.EXTRA_FILES, new ArrayList<>(checkedFiles));
@@ -1204,8 +1188,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
     }
 
     /**
-     * Use this to query the {@link OCFile} that is currently
-     * being displayed by this fragment
+     * Use this to query the {@link OCFile} that is currently being displayed by this fragment
      *
      * @return The currently viewed OCFile
      */
@@ -1232,9 +1215,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
     }
 
     /**
-     * Lists the given directory on the view. When the input parameter is null,
-     * it will either refresh the last known directory. list the root
-     * if there never was a directory.
+     * Lists the given directory on the view. When the input parameter is null, it will either refresh the last known
+     * directory. list the root if there never was a directory.
      *
      * @param directory File to be listed
      */
@@ -1281,7 +1263,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
                     storageManager,
                     onlyOnDevice,
                     mLimitToMimeType
-                );
+                                      );
 
                 OCFile previousDirectory = mFile;
                 mFile = directory;
@@ -1341,8 +1323,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
     }
 
     /**
-     * Determines if user set folder to grid or list view. If folder is not set itself,
-     * it finds a parent that is set (at least root is set).
+     * Determines if user set folder to grid or list view. If folder is not set itself, it finds a parent that is set
+     * (at least root is set).
      *
      * @param folder Folder to check or null for root folder
      * @return 'true' is folder should be shown in grid mode, 'false' if list mode is preferred.
@@ -1378,7 +1360,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
         if (getRecyclerView().getLayoutManager() != null) {
             position = ((LinearLayoutManager) getRecyclerView().getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
+                .findFirstCompletelyVisibleItemPosition();
         }
 
         RecyclerView.LayoutManager layoutManager;
@@ -1418,6 +1400,9 @@ public class OCFileListFragment extends ExtendedListFragment implements
             switch (currentSearchType) {
                 case FAVORITE_SEARCH:
                     setTitle(R.string.drawer_item_favorites);
+                    break;
+                case PHOTO_SEARCH:
+                    setTitle(R.string.drawer_item_photos);
                     break;
                 case VIDEO_SEARCH:
                     setTitle(R.string.drawer_item_videos);
@@ -1524,12 +1509,17 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
     }
 
+    private long lastRefreshTime = 0;
+
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onMessageEvent(final SearchEvent event) {
         if (SearchRemoteOperation.SearchType.PHOTO_SEARCH == event.searchType) {
             return;
         }
-
+        if (System.currentTimeMillis() - lastRefreshTime < 500) {
+            return;
+        }
+        lastRefreshTime = System.currentTimeMillis();
         prepareCurrentSearch(event);
         searchFragment = true;
         setEmptyListLoadingMessage();
@@ -1561,7 +1551,6 @@ public class OCFileListFragment extends ExtendedListFragment implements
         } else {
             remoteOperation = new GetSharesRemoteOperation();
         }
-
         remoteOperationAsyncTask = new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(Void... voids) {
@@ -1820,23 +1809,23 @@ public class OCFileListFragment extends ExtendedListFragment implements
      * @param visible Desired visibility for the FAB.
      */
     public void setFabVisible(final boolean visible) {
-        if (mFabMain == null) {
-            // is not available in FolderPickerActivity
-            return;
-        }
-
-        if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
-                if (visible) {
-                    mFabMain.show();
-                    ThemeUtils.colorFloatingActionButton(mFabMain, requireContext());
-                } else {
-                    mFabMain.hide();
-                }
-
-                showFabWithBehavior(visible);
-            });
-        }
+//        if (mFabMain == null) {
+//            // is not available in FolderPickerActivity
+//            return;
+//        }
+//
+//        if (getActivity() != null) {
+//            getActivity().runOnUiThread(() -> {
+//                if (visible) {
+//                    mFabMain.show();
+//                    ThemeUtils.colorFloatingActionButton(mFabMain, requireContext());
+//                } else {
+//                    mFabMain.hide();
+//                }
+//
+//                showFabWithBehavior(visible);
+//            });
+//        }
     }
 
     /**

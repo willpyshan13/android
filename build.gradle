@@ -28,9 +28,8 @@ buildscript {
         classpath('com.hiya:jacoco-android:0.2')
         classpath 'gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.14.2"
+//        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.14.2"
         classpath "commons-httpclient:commons-httpclient:3.1@jar" // remove after entire switch to lib v2
-        classpath 'com.karumi:shot:4.4.0'
     }
 }
 
@@ -39,12 +38,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
 apply plugin: 'com.hiya.jacoco-android'
 apply plugin: 'com.github.spotbugs'
-apply plugin: 'io.gitlab.arturbosch.detekt'
-apply plugin: 'shot'
+//apply plugin: 'io.gitlab.arturbosch.detekt'
 
 configurations {
     ktlint
@@ -63,7 +59,7 @@ ext {
     markwonVersion =  "4.6.0"
     prismVersion = "2.0.0"
     butterknifeVersion = "10.2.3"
-    androidLibraryVersion = "master-SNAPSHOT"
+    androidLibraryVersion = "1.0"
     mockitoVersion = "3.6.0"
     mockkVersion = "1.10.2"
     powermockVersion = "2.0.9"
@@ -94,12 +90,12 @@ repositories {
 def versionMajor = 3
 def versionMinor = 15
 def versionPatch = 0
-def versionBuild = 0 // 0-50=Alpha / 51-98=RC / 90-99=stable
+def versionBuild = 51 // 0-50=Alpha / 51-98=RC / 90-99=stable
 
 for (TaskExecutionRequest tr : getGradle().getStartParameter().getTaskRequests()) {
     for (String arg : tr.args) {
         // any gplay, but only exact "build", as e.g. buildGeneric shall not apply gplay.grade
-        if (arg.contains("Gplay") || arg.contains("lint") || arg.contains("ExecuteScreenshot") || arg == "build") {
+        if (arg.contains("Gplay") || arg.contains("lint")  || arg == "build") {
             apply from: 'gplay.gradle'
             System.console().println("Applying gplay.gradle")
             break
@@ -113,7 +109,7 @@ android {
     lintOptions {
         checkGeneratedSources = true
         abortOnError false
-        htmlReport true
+        htmlReport false
         htmlOutput file("$project.buildDir/reports/lint/lint.html")
         disable 'MissingTranslation',
             'GradleDependency',
@@ -126,6 +122,7 @@ android {
     }
 
     dexOptions {
+        preDexLibraries = false;
         javaMaxHeapSize "4g"
     }
 
@@ -159,9 +156,26 @@ android {
 
         flavorDimensions "default"
 
+        signingConfigs {
+            release {
+                storeFile file { "sign.jks" }
+                //签名密码
+                storePassword "will888888"
+                //别名
+                keyAlias "qijicloud"
+                //别名密码
+                keyPassword "will888888"
+            }
+        }
+
         buildTypes {
             debug {
+                signingConfig signingConfigs.release
+                debuggable true
                 testCoverageEnabled (project.hasProperty('coverage'))
+            }
+            release{
+                signingConfig signingConfigs.release
             }
         }
 
@@ -182,6 +196,13 @@ android {
                 dimension "default"
                 versionCode 20200129
                 versionName "20200129"
+            }
+
+            versionRelease {
+                applicationId "com.qijicloud.client"
+                dimension "default"
+                versionCode 1
+                versionName "beta1.0.20201110"
             }
 
             qa {
@@ -211,35 +232,35 @@ android {
         exclude 'META-INF/LICENSE'
     }
 
-    tasks.register("checkstyle", Checkstyle) {
-        configFile = file("${rootProject.projectDir}/checkstyle.xml")
-        configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
-        source 'src'
-        include '**/*.java'
-        exclude '**/gen/**'
-        classpath = files()
-    }
-
-    tasks.register("pmd", Pmd) {
-        ruleSetFiles = files("${project.rootDir}/ruleset.xml")
-        ignoreFailures = true // should continue checking
-        ruleSets = []
-
-        source 'src'
-        include '**/*.java'
-        exclude '**/gen/**'
-
-        reports {
-            xml.enabled = false
-            html.enabled = true
-            xml {
-                destination = file("$project.buildDir/reports/pmd/pmd.xml")
-            }
-            html {
-                destination = file("$project.buildDir/reports/pmd/pmd.html")
-            }
-        }
-    }
+//    tasks.register("checkstyle", Checkstyle) {
+//        configFile = file("${rootProject.projectDir}/checkstyle.xml")
+//        configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
+//        source 'src'
+//        include '**/*.java'
+//        exclude '**/gen/**'
+//        classpath = files()
+//    }
+//
+//    tasks.register("pmd", Pmd) {
+//        ruleSetFiles = files("${project.rootDir}/ruleset.xml")
+//        ignoreFailures = true // should continue checking
+//        ruleSets = []
+//
+//        source 'src'
+//        include '**/*.java'
+//        exclude '**/gen/**'
+//
+//        reports {
+//            xml.enabled = false
+//            html.enabled = true
+//            xml {
+//                destination = file("$project.buildDir/reports/pmd/pmd.xml")
+//            }
+//            html {
+//                destination = file("$project.buildDir/reports/pmd/pmd.html")
+//            }
+//        }
+//    }
 
     android.applicationVariants.all { variant ->
         String variantName = variant.name
@@ -278,10 +299,11 @@ dependencies {
     // dependencies for app building
     implementation 'androidx.multidex:multidex:2.0.1'
 //    implementation project('nextcloud-android-library')
-    genericImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
-    gplayImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
-    versionDevImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
-    qaImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
+//    genericImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
+//    gplayImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
+//    versionDevImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
+//    versionReleaseImplementation "com.github.nextcloud:android-library:$androidLibraryVersion"
+    implementation "com.github.willpyshan13:qiji-library:$androidLibraryVersion"
 
     kapt 'javax.xml.bind:jaxb-api:2.3.1'
     kapt 'org.glassfish.jaxb:jaxb-core:2.3.0.1'
@@ -472,12 +494,12 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     args "-F", "src/**/*.kt"
 }
 
-detekt {
-    reports {
-        xml {
-            enabled = false
-        }
-    }
-    config = files("detekt.yml")
-    input = files("src/")
-}
+//detekt {
+//    reports {
+//        xml {
+//            enabled = false
+//        }
+//    }
+//    config = files("detekt.yml")
+//    input = files("src/")
+//}

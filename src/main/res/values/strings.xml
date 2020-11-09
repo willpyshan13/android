@@ -4,6 +4,7 @@
     <string name="about_version">version %1$s</string>
     <string name="about_version_with_build">version %1$s, build #%2$s</string>
     <string name="appbar_search_in">Search in %s</string>
+    <string name="appbar_search_in_title">Search</string>
     <string name="actionbar_open_with">Open with</string>
     <string name="actionbar_mkdir">New folder</string>
     <string name="actionbar_settings">Settings</string>
@@ -65,7 +66,7 @@
     <string name="recommend_text">I want to invite you to use %1$s on your device.\nDownload here: %2$s</string>
     <string name="recommend_urls">%1$s or %2$s</string>
 
-    <string name="auth_host_url">Server address https://…</string>
+    <string name="auth_host_url">Server address http://…</string>
     <string name="sync_string_files">Files</string>
     <string name="uploader_btn_upload_text">Upload</string>
     <string name="uploader_btn_alternative_text">Choose</string>
@@ -955,4 +956,5 @@
     <string name="oneHour">1 hour</string>
     <string name="fourHours">4 hours</string>
     <string name="thisWeek">This week</string>
+    <string name="more">More</string>
 </resources>

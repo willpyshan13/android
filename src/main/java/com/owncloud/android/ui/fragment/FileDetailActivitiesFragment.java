@@ -78,6 +78,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -377,10 +378,12 @@ public class FileDetailActivitiesFragment extends Fragment implements
                         logMessage = noResultsMessage;
                     }
                     final String finalLogMessage = logMessage;
-                    activity.runOnUiThread(() -> {
-                        setErrorContent(finalLogMessage);
-                        isLoadingActivities = false;
-                    });
+                    if (!activity.isFinishing()) {
+                        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                            setErrorContent(finalLogMessage);
+                            isLoadingActivities = false;
+                        }
+                    }
                 }
 
                 hideRefreshLayoutLoader(activity);
@@ -408,6 +411,9 @@ public class FileDetailActivitiesFragment extends Fragment implements
 
     @VisibleForTesting
     public void populateList(List<Object> activities, boolean clear) {
+        if (swipeEmptyListRefreshLayout == null) {
+            return;
+        }
         adapter.setActivityAndVersionItems(activities, nextcloudClient, clear);
 
         if (adapter.getItemCount() == 0) {

@@ -182,6 +182,10 @@ public abstract class DrawerActivity extends ToolbarActivity
     @Inject
     ClientFactory clientFactory;
 
+    public ClientFactory getClientFactory() {
+        return clientFactory;
+    }
+
     /**
      * Initializes the drawer, its content and highlights the menu item with the given id. This method needs to be
      * called after the content view has been set.
@@ -198,7 +202,7 @@ public abstract class DrawerActivity extends ToolbarActivity
      */
     protected void setupDrawer() {
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mNavigationView = findViewById(R.id.nav_view);
         if (mNavigationView != null) {
 
@@ -208,7 +212,7 @@ public abstract class DrawerActivity extends ToolbarActivity
             setupDrawerHeader(drawerHeader);
 
             setupDrawerMenu(mNavigationView);
-            getAndDisplayUserQuota();
+//            getAndDisplayUserQuota();
             setupQuotaElement();
         }
 
@@ -325,7 +329,7 @@ public abstract class DrawerActivity extends ToolbarActivity
     }
 
 
-    private void onNavigationItemClicked(final MenuItem menuItem) {
+    public void onNavigationItemClicked(final MenuItem menuItem) {
         setDrawerMenuItemChecked(menuItem.getItemId());
 
         switch (menuItem.getItemId()) {
@@ -349,7 +353,7 @@ public abstract class DrawerActivity extends ToolbarActivity
                                    menuItem.getItemId());
                 break;
             case R.id.nav_photos:
-                startPhotoSearch(menuItem);
+                startPhotoSearch(menuItem.getItemId());
                 break;
             case R.id.nav_on_device:
                 EventBus.getDefault().post(new ChangeMenuEvent());
@@ -440,7 +444,7 @@ public abstract class DrawerActivity extends ToolbarActivity
         }
     }
 
-    private void startPhotoSearch(MenuItem menuItem) {
+    public void startPhotoSearch(int itemId) {
         SearchEvent searchEvent = new SearchEvent("image/%", SearchRemoteOperation.SearchType.PHOTO_SEARCH);
         MainApp.showOnlyFilesOnDevice(false);
 
@@ -448,30 +452,30 @@ public abstract class DrawerActivity extends ToolbarActivity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setAction(Intent.ACTION_SEARCH);
         intent.putExtra(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent));
-        intent.putExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItem.getItemId());
+        intent.putExtra(FileDisplayActivity.DRAWER_MENU_ID, itemId);
         startActivity(intent);
     }
 
-    private void handleSearchEvents(SearchEvent searchEvent, int menuItemId) {
-        if (this instanceof FileDisplayActivity) {
-            if (((FileDisplayActivity) this).getListOfFilesFragment() instanceof PhotoFragment) {
-                Intent intent = new Intent(getApplicationContext(), FileDisplayActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.setAction(Intent.ACTION_SEARCH);
-                intent.putExtra(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent));
-                intent.putExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItemId);
-                startActivity(intent);
-            } else {
-                EventBus.getDefault().post(searchEvent);
-            }
-        } else {
-            Intent intent = new Intent(getApplicationContext(), FileDisplayActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.setAction(Intent.ACTION_SEARCH);
-            intent.putExtra(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent));
-            intent.putExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItemId);
-            startActivity(intent);
-        }
+    public void handleSearchEvents(SearchEvent searchEvent, int menuItemId) {
+//        if (this instanceof FileDisplayActivity) {
+//            if (((FileDisplayActivity) this).getListOfFilesFragment() instanceof PhotoFragment) {
+//                Intent intent = new Intent(getApplicationContext(), FileDisplayActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.setAction(Intent.ACTION_SEARCH);
+//                intent.putExtra(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent));
+//                intent.putExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItemId);
+//                startActivity(intent);
+//            } else {
+//                EventBus.getDefault().post(searchEvent);
+//            }
+//        } else {
+        Intent intent = new Intent(getApplicationContext(), FileDisplayActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(Intent.ACTION_SEARCH);
+        intent.putExtra(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent));
+        intent.putExtra(FileDisplayActivity.DRAWER_MENU_ID, menuItemId);
+        startActivity(intent);
+//        }
     }
 
     /**
@@ -529,9 +533,9 @@ public abstract class DrawerActivity extends ToolbarActivity
      */
     public void openDrawer() {
         if (mDrawerLayout != null) {
-            mDrawerLayout.openDrawer(GravityCompat.START);
-            updateExternalLinksInDrawer();
-            updateQuotaLink();
+//            mDrawerLayout.openDrawer(GravityCompat.START);
+//            updateExternalLinksInDrawer();
+//            updateQuotaLink();
         }
     }
 
@@ -566,7 +570,7 @@ public abstract class DrawerActivity extends ToolbarActivity
 
         // set home button properties
         if (mDrawerToggle != null) {
-            if (chosenFile != null && isRoot(chosenFile)) {
+            if (chosenFile == null || isRoot(chosenFile)) {
                 mDrawerToggle.setDrawerIndicatorEnabled(true);
             } else {
                 mDrawerToggle.setDrawerIndicatorEnabled(false);

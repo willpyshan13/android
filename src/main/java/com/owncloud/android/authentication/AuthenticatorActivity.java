@@ -1281,7 +1281,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
             //      addAccountExplicitly, or in KEY_USERDATA
             mAccountMgr.setUserData(mAccount, Constants.KEY_OC_VERSION, mServerInfo.mVersion.getVersion());
             mAccountMgr.setUserData(mAccount, Constants.KEY_OC_BASE_URL, mServerInfo.mBaseUrl);
-
+            // add user data to account
+            mAccountMgr.setUserData(mAccount, Constants.KEY_OC_BASE_URL_OUT, mServerInfo.mBaseUrl);
             ArrayList<Object> authResultData = authResult.getData();
             if (authResultData == null || authResultData.size() == 0) {
                 Log_OC.e(this, "Could not read user data!");
@@ -1494,7 +1495,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
 
             String result = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
 
-            if (result == null || !result.startsWith(getString(R.string.login_data_own_scheme))) {
+            if (result == null) {
                 mServerStatusIcon = R.drawable.ic_alert;
                 mServerStatusText = "QR Code could not be read!";
                 showServerStatus();
@@ -1506,6 +1507,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
                 Toast.makeText(this, R.string.no_mutliple_accounts_allowed, Toast.LENGTH_LONG).show();
             } else {
                 parseAndLoginFromWebView(result);
+//                mHostUrlInput.setText(result);
             }
         }
     }
