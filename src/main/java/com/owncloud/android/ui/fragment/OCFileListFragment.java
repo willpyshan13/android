@@ -1495,6 +1495,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
         } catch (ClientFactory.CreationException e) {
             Log_OC.e(TAG, "Error processing event", e);
+        }finally {
+            onRefresh();
         }
     }
 

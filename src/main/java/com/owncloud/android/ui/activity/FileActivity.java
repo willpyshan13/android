@@ -66,6 +66,7 @@ import com.owncloud.android.lib.resources.shares.ShareType;
 import com.owncloud.android.operations.CreateShareViaLinkOperation;
 import com.owncloud.android.operations.CreateShareWithShareeOperation;
 import com.owncloud.android.operations.GetSharesForFileOperation;
+import com.owncloud.android.operations.RemoveFileOperation;
 import com.owncloud.android.operations.RenameFileOperation;
 import com.owncloud.android.operations.SynchronizeFileOperation;
 import com.owncloud.android.operations.SynchronizeFolderOperation;
@@ -413,7 +414,7 @@ public abstract class FileActivity extends DrawerActivity
             onUpdateShareInformation(result, R.string.unsharing_failed);
         } else if (operation instanceof UpdateNoteForShareOperation) {
             onUpdateNoteForShareOperationFinish(result);
-        }else if(operation instanceof RenameFileOperation){
+        }else if(operation instanceof RenameFileOperation ||operation instanceof RemoveFileOperation){
             EventBus.getDefault().post(new RefreshListEvent());
         }
     }
