@@ -846,4 +846,5 @@
         <item quantity="other">已选择 %d 个</item>
     </plurals>
     <string name="more">更多设置</string>
+    <string name="change_account_tip">如果目标服务器不可用，将切换回登录页面，是否继续?</string>
 </resources>

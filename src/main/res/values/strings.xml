@@ -950,4 +950,5 @@
     <string name="more">More</string>
     <string name="player_stop">stop</string>
     <string name="player_toggle">toggle</string>
+    <string name="change_account_tip">If the target server is not available, it will switch back to the login page. Do you want to continue?</string>
 </resources>

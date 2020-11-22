@@ -77,6 +77,8 @@ import com.owncloud.android.lib.resources.status.OCCapability;
 import com.owncloud.android.lib.resources.users.GetUserInfoRemoteOperation;
 import com.owncloud.android.operations.GetCapabilitiesOperation;
 import com.owncloud.android.ui.activities.ActivitiesActivity;
+import com.owncloud.android.ui.dialog.ChangeAccountTipDialog;
+import com.owncloud.android.ui.dialog.ConfirmationDialogFragment;
 import com.owncloud.android.ui.events.AccountRemovedEvent;
 import com.owncloud.android.ui.events.ChangeMenuEvent;
 import com.owncloud.android.ui.events.DummyDrawerEvent;
@@ -103,6 +105,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
@@ -485,12 +488,30 @@ public abstract class DrawerActivity extends ToolbarActivity
      * @param hashCode HashCode of account to be set
      */
     public void accountClicked(int hashCode) {
+        showChangeAccountTipDialog(hashCode);
+    }
+
+
+    private void showChangeAccountTipDialog(int hashCode){
+        ChangeAccountTipDialog dialog = ChangeAccountTipDialog.Companion.newInstance();
+        dialog.setOnConfirmationListener(() -> {
+            changeAccount(hashCode);
+        });
+        dialog.show(getSupportFragmentManager(), "ChangeAccountTipDialog");
+    }
+
+
+    public void changeAccount(int hashCode){
         final User currentUser = accountManager.getUser();
         if (currentUser.hashCode() != hashCode && accountManager.setCurrentOwnCloudAccount(hashCode)) {
             fetchExternalLinks(true);
             restart();
         }
     }
+
+
+
+
 
     private void externalLinkClicked(MenuItem menuItem) {
         for (ExternalLink link : externalLinksProvider.getExternalLink(ExternalLinkType.LINK)) {
