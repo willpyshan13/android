@@ -668,7 +668,7 @@ public class ExtendedListFragment extends Fragment implements
     }
 
     public void setEmptyListLoadingMessage() {
-        setEmptyListLoadingMessage(true);
+        setEmptyListLoadingMessage(false);
     }
 
     /**
