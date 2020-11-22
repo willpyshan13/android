@@ -193,7 +193,7 @@ public class ActivitiesActivity extends DrawerActivity implements ActivityListIn
 
         switch (item.getItemId()) {
             case android.R.id.home:
-//                finish();
+                finish();
                 break;
             default:
                 Log_OC.w(TAG, "Unknown menu item triggered");
