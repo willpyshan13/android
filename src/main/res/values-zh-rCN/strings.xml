@@ -437,7 +437,7 @@
     <string name="no_mutliple_accounts_allowed">只允许一个账号</string>
     <string name="no_pdf_app_available">没有可用来打开 PDF 的应用</string>
     <string name="note_confirm">发送</string>
-    <string name="note_could_not_sent">无法发送笔记</string>
+    <string name="note_could_not_sent">无法发送备注</string>
     <string name="notification_action_failed">执行动作失败。</string>
     <string name="notification_channel_download_description">显示下载进度</string>
     <string name="notification_channel_download_name">下载提醒频道</string>
@@ -576,7 +576,7 @@
     <string name="select_all">全部选择</string>
     <string name="select_template">选择模板</string>
     <string name="send">发送</string>
-    <string name="send_note">发送备注到收件人</string>
+    <string name="send_note">发送备注到接收人</string>
     <string name="sendbutton_description">发送按钮的图标</string>
     <string name="set_as">设置</string>
     <string name="set_picture_as">将图片用作</string>
