@@ -139,6 +139,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -2681,6 +2682,6 @@ public class FileDisplayActivity extends FileActivity
     };
 
     public static boolean equalsObj(Object a, Object b) {
-        return (a == null) ? (b == null) : a.equals(b);
+        return Objects.equals(a, b);
     }
 }
