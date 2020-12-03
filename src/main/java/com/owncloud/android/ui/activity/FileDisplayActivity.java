@@ -713,6 +713,7 @@ public class FileDisplayActivity extends FileActivity
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) findViewById(R.id.root_layout).getLayoutParams();
         params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+        binding.bottomContainer.setVisibility(View.VISIBLE);
     }
 
     public void updateListOfFilesFragment(boolean fromSearch) {
@@ -1650,6 +1651,7 @@ public class FileDisplayActivity extends FileActivity
         updateFragmentsVisibility(true);
         updateActionBarTitleAndHomeButton(file);
         setFile(file);
+        binding.bottomContainer.setVisibility(View.GONE);
     }
 
     private void resetHeaderScrollingState() {
