@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4CACF9">
+
+
+    <ImageView
+        android:id="@+id/login_iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_et_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/login_iv_logo">
+
+        <EditText
+            android:id="@+id/login_et_server"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:hint="请输入服务器地址"
+            android:paddingStart="15dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_scan_qr"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:padding="5dp"
+            android:src="@drawable/qrcode_scan"
+            app:layout_constraintBottom_toBottomOf="@+id/login_et_server"
+            app:layout_constraintEnd_toEndOf="@+id/login_et_server"
+            app:layout_constraintTop_toTopOf="@+id/login_et_server"
+            app:tint="#838383" />
+
+
+        <EditText
+            android:id="@+id/login_et_account"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:hint="请输入用户名或邮箱"
+            android:paddingStart="15dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_et_server" />
+
+
+        <EditText
+            android:id="@+id/login_et_pwd"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="#FFFFFF"
+            android:hint="请输入密码"
+            android:paddingStart="15dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_et_account" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="忘记密码"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/login_et_layout"
+        app:layout_constraintTop_toBottomOf="@+id/login_et_layout" />
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/shape_login_btn_bg"
+        android:drawableEnd="@drawable/arrow_right"
+        android:gravity="center"
+        android:paddingStart="40dp"
+        android:paddingEnd="20dp"
+        android:text="@string/login"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/login_et_layout"
+        app:layout_constraintStart_toStartOf="@+id/login_et_layout"
+        app:layout_constraintTop_toBottomOf="@+id/login_et_layout" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="赛凡智云 - 轻松管理您的数据资产"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

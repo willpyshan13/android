@@ -43,6 +43,7 @@ import com.nextcloud.client.preferences.AppPreferences;
 import com.owncloud.android.BuildConfig;
 import com.owncloud.android.R;
 import com.owncloud.android.authentication.AuthenticatorActivity;
+import com.owncloud.android.authentication.LoginActivity;
 import com.owncloud.android.features.FeatureItem;
 import com.owncloud.android.ui.activity.BaseActivity;
 import com.owncloud.android.ui.activity.FileDisplayActivity;
@@ -76,6 +77,9 @@ public class FirstRunActivity extends BaseActivity implements ViewPager.OnPageCh
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_run_activity);
+
+//        startActivity(new Intent(this, LoginActivity.class));
+//        finish();
 
         boolean isProviderOrOwnInstallationVisible = getResources().getBoolean(R.bool.show_provider_or_own_installation);
 
@@ -163,15 +167,15 @@ public class FirstRunActivity extends BaseActivity implements ViewPager.OnPageCh
     public void onBackPressed() {
         onFinish();
 
-        if (getIntent().getBooleanExtra(EXTRA_ALLOW_CLOSE, false)) {
-            super.onBackPressed();
-        } else {
-            Intent intent = new Intent(getApplicationContext(), AuthenticatorActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(EXTRA_EXIT, true);
-            startActivity(intent);
-            finish();
-        }
+//        if (getIntent().getBooleanExtra(EXTRA_ALLOW_CLOSE, false)) {
+//            super.onBackPressed();
+//        } else {
+//            Intent intent = new Intent(getApplicationContext(), AuthenticatorActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.putExtra(EXTRA_EXIT, true);
+//            startActivity(intent);
+//            finish();
+//        }
     }
 
     private void onFinish() {

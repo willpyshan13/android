@@ -107,6 +107,14 @@
 
     <style name="Theme.ownCloud.noActionBar.Login" parent="Theme.ownCloud.noActionBar.LoginBase" />
 
+    <style name="Theme.ownCloud.noActionBar.newLogin" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
+        <item name="android:windowBackground">#4CACF9</item>
+        <item name="colorPrimaryDark">#4CACF9</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 	<style name="ownCloud.AlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
 		<item name="colorAccent">@color/color_accent</item>
 		<item name="searchViewStyle">@style/ownCloud.SearchView</item>

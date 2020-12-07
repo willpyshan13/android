@@ -44,4 +44,12 @@
         <item name="android:windowLightNavigationBar">false</item>
     </style>
 
+    <style name="Theme.ownCloud.noActionBar.newLogin" parent="Theme.MaterialComponents.DayNight.NoActionBar" >
+        <item name="android:windowBackground">#4CACF9</item>
+        <item name="colorPrimaryDark">#4CACF9</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

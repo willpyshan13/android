@@ -302,6 +302,19 @@
         </activity>
 
         <activity
+            android:name=".authentication.LoginActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/Theme.ownCloud.noActionBar.newLogin">
+            <intent-filter>
+                <action android:name="com.owncloud.android.workaround.accounts.CREATE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".authentication.DeepLinkLoginActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="true"
