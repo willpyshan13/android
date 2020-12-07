@@ -847,4 +847,14 @@
     </plurals>
     <string name="more">更多设置</string>
     <string name="change_account_tip">如果目标服务器不可用，将切换回登录页面，是否继续?</string>
+
+    <string name="input_account">请输入用户名或邮箱</string>
+    <string name="input_server">请输入服务器地址</string>
+    <string name="input_pwd">请输入密码</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="company_desc">赛凡智云 - 轻松管理您的数据资产</string>
+    <string name="reset_pwd">重置密码</string>
+    <string name="back_to_login">返回登录</string>
+    <string name="reset_pwd_tips">密码重置的电子邮件发送到此账号的电子邮件地址。如果您未在合理的时间内收到，请优先检查您的垃圾邮件/垃圾邮件文件夹。如果不存在此点击邮件，请咨询系统管理员。\n如果它不在此处，请询问您的本地管理员。</string>
+
 </resources>
