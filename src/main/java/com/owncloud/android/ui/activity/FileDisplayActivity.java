@@ -45,7 +45,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcelable;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -84,7 +83,6 @@ import com.owncloud.android.lib.common.operations.RemoteOperationResult.ResultCo
 import com.owncloud.android.lib.common.utils.Log_OC;
 import com.owncloud.android.lib.resources.files.RestoreFileVersionRemoteOperation;
 import com.owncloud.android.lib.resources.files.SearchRemoteOperation;
-import com.owncloud.android.lib.resources.status.GetStatusRemoteOperation;
 import com.owncloud.android.lib.resources.status.OwnCloudVersion;
 import com.owncloud.android.operations.CopyFileOperation;
 import com.owncloud.android.operations.CreateFolderOperation;
@@ -107,10 +105,11 @@ import com.owncloud.android.ui.events.TokenPushEvent;
 import com.owncloud.android.ui.fragment.ExtendedListFragment;
 import com.owncloud.android.ui.fragment.FileDetailFragment;
 import com.owncloud.android.ui.fragment.FileFragment;
+import com.owncloud.android.ui.fragment.HomeAllFileFragment;
 import com.owncloud.android.ui.fragment.MoreFragment;
-import com.owncloud.android.ui.fragment.OCFileListBottomSheetDialog;
 import com.owncloud.android.ui.fragment.GalleryFragment;
 import com.owncloud.android.ui.fragment.OCFileListFragment;
+import com.owncloud.android.ui.fragment.SharedFragment;
 import com.owncloud.android.ui.fragment.TaskRetainerFragment;
 import com.owncloud.android.ui.helpers.FileOperationsHelper;
 import com.owncloud.android.ui.helpers.UriUploader;
@@ -322,8 +321,8 @@ public class FileDisplayActivity extends FileActivity
                             showSortListGroup(false);
                             setupToolbar();
                             break;
-                        case R.id.nav_photos:
-                            fileDisplayPage.show(FileDisplayActivity.this, fileDisplayPage.photoFragment);
+                        case R.id.nav_shared:
+                            fileDisplayPage.show(FileDisplayActivity.this, fileDisplayPage.sharedFragment);
                             showSortListGroup(false);
                             setupToolbar();
                             break;
@@ -362,6 +361,12 @@ public class FileDisplayActivity extends FileActivity
     public boolean isRoot(OCFile file) {
         if (fileDisplayPage.currentFragment instanceof MoreFragment) {
             return ((MoreFragment) fileDisplayPage.currentFragment).isRoot();
+        }
+        if (fileDisplayPage.currentFragment instanceof HomeAllFileFragment) {
+            return ((HomeAllFileFragment) fileDisplayPage.currentFragment).isRoot();
+        }
+        if (fileDisplayPage.currentFragment instanceof SharedFragment) {
+            return ((SharedFragment) fileDisplayPage.currentFragment).isRoot();
         }
         return super.isRoot(file);
     }
@@ -684,6 +689,12 @@ public class FileDisplayActivity extends FileActivity
         Fragment listOfFiles = fileDisplayPage.currentFragment;
         if (listOfFiles instanceof MoreFragment) {
             listOfFiles = ((MoreFragment) listOfFiles).getListOfFilesFragment();
+        }
+        if (listOfFiles instanceof HomeAllFileFragment) {
+            listOfFiles = ((HomeAllFileFragment) listOfFiles).getListOfFilesFragment();
+        }
+        if (listOfFiles instanceof SharedFragment) {
+            listOfFiles = ((SharedFragment) listOfFiles).getListOfFilesFragment();
         }
         if (listOfFiles != null) {
             return (OCFileListFragment) listOfFiles;
@@ -1140,6 +1151,20 @@ public class FileDisplayActivity extends FileActivity
                         if (fileDisplayPage.currentFragment instanceof MoreFragment) {
                             if (!((MoreFragment) fileDisplayPage.currentFragment).isRoot()) {
                                 ((MoreFragment) fileDisplayPage.currentFragment).removeFiles();
+                                updateActionBarTitleAndHomeButton(null);
+                                return;
+                            }
+                        }
+                        if (fileDisplayPage.currentFragment instanceof SharedFragment) {
+                            if (!((SharedFragment) fileDisplayPage.currentFragment).isRoot()) {
+                                ((SharedFragment) fileDisplayPage.currentFragment).removeFiles();
+                                updateActionBarTitleAndHomeButton(null);
+                                return;
+                            }
+                        }
+                        if (fileDisplayPage.currentFragment instanceof HomeAllFileFragment) {
+                            if (!((HomeAllFileFragment) fileDisplayPage.currentFragment).isRoot()) {
+                                ((HomeAllFileFragment) fileDisplayPage.currentFragment).removeFiles();
                                 updateActionBarTitleAndHomeButton(null);
                                 return;
                             }
@@ -2581,17 +2606,17 @@ public class FileDisplayActivity extends FileActivity
     public void registerFabListener() {
         FileActivity activity = (FileActivity) getActivity();
         ThemeUtils.colorFloatingActionButton(binding.fabMain, R.drawable.ic_plus, this);
-        binding.fabMain.setOnClickListener(v -> {
-            if (fileDisplayPage.homeFragment.getCurrentFile() == null) {
-                return;
-            }
-            new OCFileListBottomSheetDialog(activity,
-                                            fileDisplayPage.homeFragment,
-                                            fileDisplayPage.homeFragment.deviceInfo,
-                                            accountManager.getUser(),
-                                            fileDisplayPage.homeFragment.getCurrentFile())
-                .show();
-        });
+//        binding.fabMain.setOnClickListener(v -> {
+//            if (fileDisplayPage.homeFragment.getCurrentFile() == null) {
+//                return;
+//            }
+//            new OCFileListBottomSheetDialog(activity,
+//                                            fileDisplayPage.homeFragment,
+//                                            fileDisplayPage.homeFragment.deviceInfo,
+//                                            accountManager.getUser(),
+//                                            fileDisplayPage.homeFragment.getCurrentFile())
+//                .show();
+//        });
     }
 
     private boolean isWifi = false;

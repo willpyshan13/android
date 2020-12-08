@@ -35,8 +35,6 @@ class MoreFragment : Fragment() {
 
     private val accountManager: UserAccountManager by lazy { (activity as FileDisplayActivity).userAccountManager }
 
-    private val preferences: AppPreferences by lazy { (activity as FileDisplayActivity).appPreferences }
-
     private val clientFactory: ClientFactory by lazy { (activity as FileDisplayActivity).clientFactory }
 
     private val externalLinksProvider by lazy { ExternalLinksProvider(requireActivity().contentResolver) }

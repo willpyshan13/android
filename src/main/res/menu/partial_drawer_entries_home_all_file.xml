@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ownCloud Android client application
+
+  Copyright (C) 2016 ownCloud Inc.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License version 2,
+  as published by the Free Software Foundation.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+      standard menu
+      all items in this group MUST have orderInCategory="0" set
+
+    -->
+    <group
+        android:id="@+id/drawer_menu_standard"
+        android:checkableBehavior="single">
+
+        <item
+            android:icon="@drawable/folder_group"
+            android:id="@+id/nav_mine_zone"
+            android:orderInCategory="0"
+            android:title="@string/etm_mine_zone" />
+        <item
+            android:id="@+id/nav_group_zone"
+            android:icon="@drawable/folder_group_yellow"
+            android:title="@string/etm_group_zone" />
+        <item
+            android:id="@+id/nav_shared_zone"
+            android:icon="@drawable/folder"
+            android:orderInCategory="0"
+            android:title="@string/etm_shared_zone"/>
+
+    </group>
+
+</menu>

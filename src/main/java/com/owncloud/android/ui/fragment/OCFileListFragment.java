@@ -413,11 +413,18 @@ public class OCFileListFragment extends ExtendedListFragment implements
                 case RECENTLY_MODIFIED_SEARCH:
                     currentSearchType = SearchType.RECENTLY_MODIFIED_SEARCH;
                     break;
-
                 case SHARED_FILTER:
                     currentSearchType = SearchType.SHARED_FILTER;
                     break;
-
+                case SHARED_FILTER_LINK:
+                    currentSearchType = SearchType.SHARED_FILTER_LINK;
+                    break;
+                case SHARED_FILTER_TO_MINE:
+                    currentSearchType = SearchType.SHARED_FILTER_TO_MINE;
+                    break;
+                case SHARED_FILTER_MINE:
+                    currentSearchType = SearchType.SHARED_FILTER_MINE;
+                    break;
                 default:
                     // do nothing
                     break;
@@ -1405,6 +1412,15 @@ public class OCFileListFragment extends ExtendedListFragment implements
                 case SHARED_FILTER:
                     setTitle(R.string.drawer_item_shared);
                     break;
+                case SHARED_FILTER_LINK:
+                    setTitle(R.string.etm_shared_link);
+                    break;
+                case SHARED_FILTER_TO_MINE:
+                    setTitle(R.string.etm_shared_to_mine);
+                    break;
+                case SHARED_FILTER_MINE:
+                    setTitle(R.string.etm_shared_mine);
+                    break;
                 default:
                     setTitle(ThemeUtils.getDefaultDisplayNameForRootFolder(getContext()));
                     break;
@@ -1531,7 +1547,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
         final User currentUser = accountManager.getUser();
 
         final RemoteOperation remoteOperation;
-        if (currentSearchType != SearchType.SHARED_FILTER) {
+        if (currentSearchType != SearchType.SHARED_FILTER||
+            currentSearchType != SearchType.SHARED_FILTER_LINK||
+            currentSearchType != SearchType.SHARED_FILTER_MINE||
+            currentSearchType != SearchType.SHARED_FILTER_TO_MINE) {
             boolean searchOnlyFolders = false;
             if (getArguments() != null && getArguments().getBoolean(ARG_SEARCH_ONLY_FOLDER, false)) {
                 searchOnlyFolders = true;
@@ -1735,6 +1754,9 @@ public class OCFileListFragment extends ExtendedListFragment implements
             (!TextUtils.isEmpty(event.getSearchQuery()) ||
                 event.searchType == SearchRemoteOperation.SearchType.SHARED_SEARCH ||
                 event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER ||
+                event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER_TO_MINE ||
+                event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER_MINE ||
+                event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER_LINK ||
                 event.searchType == SearchRemoteOperation.SearchType.FAVORITE_SEARCH);
     }
 

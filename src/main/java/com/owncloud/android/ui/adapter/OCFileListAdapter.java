@@ -971,7 +971,10 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         // early exit
         if (objects.size() > 0 && mStorageManager != null) {
-            if (searchType == ExtendedListFragment.SearchType.SHARED_FILTER) {
+            if (searchType == ExtendedListFragment.SearchType.SHARED_FILTER||
+                searchType == ExtendedListFragment.SearchType.SHARED_FILTER_TO_MINE||
+                searchType == ExtendedListFragment.SearchType.SHARED_FILTER_MINE||
+                searchType == ExtendedListFragment.SearchType.SHARED_FILTER_LINK) {
                 parseShares(objects);
             } else {
                 parseVirtuals(objects, searchType);

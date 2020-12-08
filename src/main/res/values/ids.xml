@@ -5,6 +5,7 @@
     <item name="nav_favorites" type="id" />
     <item name="nav_empty" type="id" />
     <item name="nav_photos" type="id" />
+    <item name="nav_shared" type="id" />
     <item name="nav_more" type="id" />
 
 </resources>

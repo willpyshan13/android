@@ -866,7 +866,12 @@
     <string name="etm_download_user" translatable="false">@string/etm_background_job_user</string>
     <string name="etm_download_state" translatable="false">@string/etm_background_job_state</string>
     <string name="etm_download_progress" translatable="false">@string/etm_background_job_progress</string>
-
+    <string name="etm_group_zone">Group zone</string>
+    <string name="etm_mine_zone">Mine zone</string>
+    <string name="etm_shared_zone">Shared zone</string>
+    <string name="etm_shared_to_mine">Shared to me</string>
+    <string name="etm_shared_mine">Mine shared</string>
+    <string name="etm_shared_link">Shared link</string>
     <string name="logs_status_loading">Loading…</string>
     <string name="logs_status_filtered">Logs: %1$d kB, query matched %2$d / %3$d in %4$d ms</string>
     <string name="logs_status_not_filtered">Logs: %1$d kB, no filter</string>

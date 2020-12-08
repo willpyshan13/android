@@ -7,9 +7,10 @@ import com.owncloud.android.R;
 import com.owncloud.android.lib.resources.files.SearchRemoteOperation;
 import com.owncloud.android.ui.activity.FileDisplayActivity;
 import com.owncloud.android.ui.events.SearchEvent;
-import com.owncloud.android.ui.fragment.GalleryFragment;
+import com.owncloud.android.ui.fragment.HomeAllFileFragment;
 import com.owncloud.android.ui.fragment.MoreFragment;
 import com.owncloud.android.ui.fragment.OCFileListFragment;
+import com.owncloud.android.ui.fragment.SharedFragment;
 
 import org.parceler.Parcels;
 
@@ -19,8 +20,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class FileDisplayPage {
 
-    public OCFileListFragment homeFragment = new OCFileListFragment();
-    public GalleryFragment photoFragment = new GalleryFragment(true);
+    public HomeAllFileFragment homeFragment = new HomeAllFileFragment();
+    public SharedFragment sharedFragment = new SharedFragment();
     public OCFileListFragment favFragment = new OCFileListFragment();
     public MoreFragment moreFragment = new MoreFragment();
     public Fragment currentFragment;
@@ -38,7 +39,7 @@ public class FileDisplayPage {
         SearchEvent photoSearchEvent = new SearchEvent("image/%", SearchRemoteOperation.SearchType.PHOTO_SEARCH);
         Bundle photoBundle = new Bundle();
         photoBundle.putParcelable(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(photoSearchEvent));
-        photoFragment.setArguments(photoBundle);
+        sharedFragment.setArguments(photoBundle);
     }
 
     public void show(FragmentActivity activity, Fragment fragment) {
@@ -68,8 +69,8 @@ public class FileDisplayPage {
         if (favFragment != fragment && isShow(favFragment)) {
             transaction.hide(favFragment);
         }
-        if (photoFragment != fragment && isShow(photoFragment)) {
-            transaction.hide(photoFragment);
+        if (sharedFragment != fragment && isShow(sharedFragment)) {
+            transaction.hide(sharedFragment);
         }
         if (moreFragment != fragment && isShow(moreFragment)) {
             transaction.hide(moreFragment);

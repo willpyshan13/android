@@ -151,7 +151,10 @@ public class ExtendedListFragment extends Fragment implements
         RECENTLY_MODIFIED_SEARCH,
         RECENTLY_ADDED_SEARCH,
         // not a real filter, but nevertheless
-        SHARED_FILTER
+        SHARED_FILTER,
+        SHARED_FILTER_TO_MINE,
+        SHARED_FILTER_MINE,
+        SHARED_FILTER_LINK
     }
 
     protected void setRecyclerViewAdapter(RecyclerView.Adapter recyclerViewAdapter) {
@@ -658,7 +661,10 @@ public class ExtendedListFragment extends Fragment implements
                     setMessageForEmptyList(R.string.file_list_empty_headline_search,
                                            R.string.file_list_empty_search,
                                            R.drawable.ic_search_light_grey);
-                } else if (searchType == SearchType.SHARED_FILTER) {
+                } else if (searchType == SearchType.SHARED_FILTER||
+                    searchType == SearchType.SHARED_FILTER_LINK||
+                    searchType == SearchType.SHARED_FILTER_MINE||
+                    searchType == SearchType.SHARED_FILTER_TO_MINE) {
                     setMessageForEmptyList(R.string.file_list_empty_shared_headline,
                                            R.string.file_list_empty_shared,
                                            R.drawable.ic_list_empty_shared);
