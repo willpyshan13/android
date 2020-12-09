@@ -71,6 +71,8 @@ import com.owncloud.android.lib.resources.e2ee.ToggleEncryptionRemoteOperation;
 import com.owncloud.android.lib.resources.files.SearchRemoteOperation;
 import com.owncloud.android.lib.resources.files.ToggleFavoriteRemoteOperation;
 import com.owncloud.android.lib.resources.shares.GetSharesRemoteOperation;
+import com.owncloud.android.lib.resources.shares.OCShare;
+import com.owncloud.android.lib.resources.shares.ShareType;
 import com.owncloud.android.lib.resources.status.OCCapability;
 import com.owncloud.android.ui.activity.FileActivity;
 import com.owncloud.android.ui.activity.FileDisplayActivity;
@@ -1583,11 +1585,28 @@ public class OCFileListFragment extends ExtendedListFragment implements
                         if (remoteOperationResult.getData() == null || remoteOperationResult.getData().size() == 0) {
                             setEmptyView(event);
                         } else {
-                            mAdapter.setData(remoteOperationResult.getData(),
-                                             currentSearchType,
-                                             storageManager,
-                                             mFile,
-                                             true);
+                            if (currentSearchType == SearchType.SHARED_FILTER_LINK){
+                                List linkData = new ArrayList();
+                                for (int i = 0;i< remoteOperationResult.getData().size();i++){
+                                    if (remoteOperationResult.getData().get(i) instanceof OCShare){
+                                        if((((OCShare) remoteOperationResult.getData().get(i)).getShareType() == ShareType.PUBLIC_LINK)) {
+                                            linkData.add(remoteOperationResult.getData().get(i));
+                                        }
+                                    }
+                                }
+                                mAdapter.setData(linkData,
+                                                 currentSearchType,
+                                                 storageManager,
+                                                 mFile,
+                                                 true);
+                            }else {
+                                mAdapter.setData(remoteOperationResult.getData(),
+                                                 currentSearchType,
+                                                 storageManager,
+                                                 mFile,
+                                                 true);
+                            }
+
                             searchEvent = event;
                         }
 
