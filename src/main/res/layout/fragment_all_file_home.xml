@@ -4,20 +4,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navView"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/contentView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_weight="1"
+        android:layout_height="0dp"
         android:background="@color/appbar"
         android:fitsSystemWindows="true"
+        android:orientation="vertical"
         android:paddingBottom="80dp"
-        android:theme="@style/NavigationView_ItemTextAppearance"
-        app:itemTextColor="@color/drawer_text_color"
-        app:menu="@menu/partial_drawer_entries_home_all_file">
+        app:layout_constraintBottom_toTopOf="@+id/space"
+        app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.navigation.NavigationView>
+        <TextView
+            android:id="@+id/nav_mine_zone"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableStart="@drawable/folder_group"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="@string/etm_mine_zone"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/nav_group_zone"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableStart="@drawable/folder_group_yellow"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="@string/etm_group_zone"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/nav_shared_zone"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:drawableStart="@drawable/folder"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:text="@string/etm_shared_zone"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    <!--    <com.google.android.material.navigation.NavigationView-->
+    <!--        android:id="@+id/navView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="start"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:background="@color/appbar"-->
+    <!--        android:fitsSystemWindows="true"-->
+    <!--        android:paddingBottom="80dp"-->
+    <!--        android:theme="@style/NavigationView_ItemTextAppearance"-->
+    <!--        app:itemTextColor="@color/drawer_text_color"-->
+    <!--        app:menu="@menu/partial_drawer_entries_home_all_file">-->
+
+    <!--    </com.google.android.material.navigation.NavigationView>-->
 
     <FrameLayout
         android:id="@+id/container"

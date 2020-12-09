@@ -10,6 +10,7 @@ import com.owncloud.android.R
 import com.owncloud.android.lib.resources.files.SearchRemoteOperation
 import com.owncloud.android.ui.activity.FileDisplayActivity
 import com.owncloud.android.ui.events.SearchEvent
+import kotlinx.android.synthetic.main.fragment_all_file_home.*
 import kotlinx.android.synthetic.main.fragment_more.*
 import org.parceler.Parcels
 
@@ -24,24 +25,19 @@ class HomeAllFileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as FileDisplayActivity
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_mine_zone -> {
 
-                }
-                R.id.nav_group_zone -> {
-                    MainApp.showOnlyFilesOnDevice(false)
-                    showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER))
-                }
-                R.id.nav_shared_zone -> {
-                    MainApp.showOnlyFilesOnDevice(true)
-                    showFiles(null)
-                }
-                else -> {
-                    activity.onNavigationItemClicked(menuItem)
-                }
-            }
-            true
+        nav_mine_zone.setOnClickListener {
+
+        }
+
+        nav_group_zone.setOnClickListener {
+            MainApp.showOnlyFilesOnDevice(false)
+            showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER))
+        }
+
+        nav_shared_zone.setOnClickListener {
+            MainApp.showOnlyFilesOnDevice(true)
+            showFiles(null)
         }
         (activity as? FileDisplayActivity)?.setupToolbar()
     }
@@ -56,7 +52,7 @@ class HomeAllFileFragment : Fragment() {
         childFragmentManager.beginTransaction()
             .replace(R.id.container, fragment, FileDisplayActivity.TAG_LIST_OF_FILES)
             .commit()
-        navView.visibility = View.GONE
+        contentView.visibility = View.GONE
         fileFragment = fragment
     }
 
@@ -78,7 +74,7 @@ class HomeAllFileFragment : Fragment() {
                 .commit()
         }
         fileFragment = null
-        navView.visibility = View.VISIBLE
+        contentView.visibility = View.VISIBLE
     }
 
 
