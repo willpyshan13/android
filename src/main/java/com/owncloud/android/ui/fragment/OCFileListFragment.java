@@ -134,6 +134,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.owncloud.android.datamodel.OCFile.ROOT_PATH;
+import static com.owncloud.android.lib.resources.files.SearchRemoteOperation.SearchType.SHARED_FILTER;
+import static com.owncloud.android.lib.resources.files.SearchRemoteOperation.SearchType.SHARED_FILTER_LINK;
+import static com.owncloud.android.lib.resources.files.SearchRemoteOperation.SearchType.SHARED_FILTER_MINE;
+import static com.owncloud.android.lib.resources.files.SearchRemoteOperation.SearchType.SHARED_FILTER_TO_MINE;
 import static com.owncloud.android.utils.DisplayUtils.openSortingOrderDialogFragment;
 
 /**
@@ -1511,7 +1515,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
         } catch (ClientFactory.CreationException e) {
             Log_OC.e(TAG, "Error processing event", e);
-        }finally {
+        } finally {
             onRefresh();
         }
     }
@@ -1547,9 +1551,9 @@ public class OCFileListFragment extends ExtendedListFragment implements
         final User currentUser = accountManager.getUser();
 
         final RemoteOperation remoteOperation;
-        if (currentSearchType != SearchType.SHARED_FILTER||
-            currentSearchType != SearchType.SHARED_FILTER_LINK||
-            currentSearchType != SearchType.SHARED_FILTER_MINE||
+        if (currentSearchType != SearchType.SHARED_FILTER &&
+            currentSearchType != SearchType.SHARED_FILTER_LINK &&
+            currentSearchType != SearchType.SHARED_FILTER_MINE &&
             currentSearchType != SearchType.SHARED_FILTER_TO_MINE) {
             boolean searchOnlyFolders = false;
             if (getArguments() != null && getArguments().getBoolean(ARG_SEARCH_ONLY_FOLDER, false)) {
@@ -1559,7 +1563,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
             remoteOperation = new SearchRemoteOperation(event.getSearchQuery(), event.getSearchType(),
                                                         searchOnlyFolders);
         } else {
-            remoteOperation = new GetSharesRemoteOperation();
+            remoteOperation = new GetSharesRemoteOperation(getSearchType(currentSearchType));
         }
         remoteOperationAsyncTask = new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -1615,6 +1619,18 @@ public class OCFileListFragment extends ExtendedListFragment implements
         };
 
         remoteOperationAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public SearchRemoteOperation.SearchType getSearchType(SearchType type){
+        if (type == SearchType.SHARED_FILTER_LINK){
+            return SHARED_FILTER_LINK;
+        }else if(type == SearchType.SHARED_FILTER_MINE){
+            return SHARED_FILTER_MINE;
+        }else if(type == SearchType.SHARED_FILTER_TO_MINE){
+            return SHARED_FILTER_TO_MINE;
+        }else {
+            return SHARED_FILTER;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -1753,10 +1769,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
             event.getSearchType() != null &&
             (!TextUtils.isEmpty(event.getSearchQuery()) ||
                 event.searchType == SearchRemoteOperation.SearchType.SHARED_SEARCH ||
-                event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER ||
+                event.searchType == SHARED_FILTER ||
                 event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER_TO_MINE ||
                 event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER_MINE ||
-                event.searchType == SearchRemoteOperation.SearchType.SHARED_FILTER_LINK ||
+                event.searchType == SHARED_FILTER_LINK ||
                 event.searchType == SearchRemoteOperation.SearchType.FAVORITE_SEARCH);
     }
 
