@@ -22,8 +22,8 @@ class LoginActivity : AppCompatActivity() {
 
     private val mAccountMgr = AccountManager.get(this)
 
-    @Inject
     var accountManager: UserAccountManager? = null
+        @Inject set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
