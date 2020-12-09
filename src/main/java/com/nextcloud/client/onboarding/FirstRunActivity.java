@@ -78,60 +78,60 @@ public class FirstRunActivity extends BaseActivity implements ViewPager.OnPageCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_run_activity);
 
-//        startActivity(new Intent(this, LoginActivity.class));
-//        finish();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
 
-        boolean isProviderOrOwnInstallationVisible = getResources().getBoolean(R.bool.show_provider_or_own_installation);
-
-        setSlideshowSize(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
-
-        Button loginButton = findViewById(R.id.login);
-        loginButton.setBackgroundColor(getResources().getColor(R.color.login_btn_tint));
-        loginButton.setTextColor(getResources().getColor(R.color.primary));
-
-        loginButton.setOnClickListener(v -> {
-            if (getIntent().getBooleanExtra(EXTRA_ALLOW_CLOSE, false)) {
-                Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
-                authenticatorActivityIntent.putExtra(AuthenticatorActivity.EXTRA_USE_PROVIDER_AS_WEBLOGIN, false);
-                startActivityForResult(authenticatorActivityIntent, FIRST_RUN_RESULT_CODE);
-            } else {
-                finish();
-            }
-        });
-
-        Button providerButton = findViewById(R.id.signup);
-        providerButton.setBackgroundColor(getResources().getColor(R.color.primary));
-        providerButton.setTextColor(getResources().getColor(R.color.login_text_color));
-        providerButton.setVisibility(isProviderOrOwnInstallationVisible ? View.VISIBLE : View.GONE);
-        providerButton.setOnClickListener(v -> {
-            Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
-            authenticatorActivityIntent.putExtra(AuthenticatorActivity.EXTRA_USE_PROVIDER_AS_WEBLOGIN, true);
-
-            if (getIntent().getBooleanExtra(EXTRA_ALLOW_CLOSE, false)) {
-                startActivityForResult(authenticatorActivityIntent, FIRST_RUN_RESULT_CODE);
-            } else {
-                authenticatorActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(authenticatorActivityIntent);
-            }
-        });
-
-        TextView hostOwnServerTextView = findViewById(R.id.host_own_server);
-        hostOwnServerTextView.setTextColor(getResources().getColor(R.color.login_text_color));
-        hostOwnServerTextView.setVisibility(isProviderOrOwnInstallationVisible ? View.VISIBLE : View.GONE);
-
-        progressIndicator = findViewById(R.id.progressIndicator);
-        ViewPager viewPager = findViewById(R.id.contentPanel);
-
-        // Sometimes, accounts are not deleted when you uninstall the application so we'll do it now
-        if (onboarding.isFirstRun()) {
-            userAccountManager.removeAllAccounts();
-        }
-
-        FeaturesViewAdapter featuresViewAdapter = new FeaturesViewAdapter(getSupportFragmentManager(), getFirstRun());
-        progressIndicator.setNumberOfSteps(featuresViewAdapter.getCount());
-        viewPager.setAdapter(featuresViewAdapter);
-
-        viewPager.addOnPageChangeListener(this);
+//        boolean isProviderOrOwnInstallationVisible = getResources().getBoolean(R.bool.show_provider_or_own_installation);
+//
+//        setSlideshowSize(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+//
+//        Button loginButton = findViewById(R.id.login);
+//        loginButton.setBackgroundColor(getResources().getColor(R.color.login_btn_tint));
+//        loginButton.setTextColor(getResources().getColor(R.color.primary));
+//
+//        loginButton.setOnClickListener(v -> {
+//            if (getIntent().getBooleanExtra(EXTRA_ALLOW_CLOSE, false)) {
+//                Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
+//                authenticatorActivityIntent.putExtra(AuthenticatorActivity.EXTRA_USE_PROVIDER_AS_WEBLOGIN, false);
+//                startActivityForResult(authenticatorActivityIntent, FIRST_RUN_RESULT_CODE);
+//            } else {
+//                finish();
+//            }
+//        });
+//
+//        Button providerButton = findViewById(R.id.signup);
+//        providerButton.setBackgroundColor(getResources().getColor(R.color.primary));
+//        providerButton.setTextColor(getResources().getColor(R.color.login_text_color));
+//        providerButton.setVisibility(isProviderOrOwnInstallationVisible ? View.VISIBLE : View.GONE);
+//        providerButton.setOnClickListener(v -> {
+//            Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
+//            authenticatorActivityIntent.putExtra(AuthenticatorActivity.EXTRA_USE_PROVIDER_AS_WEBLOGIN, true);
+//
+//            if (getIntent().getBooleanExtra(EXTRA_ALLOW_CLOSE, false)) {
+//                startActivityForResult(authenticatorActivityIntent, FIRST_RUN_RESULT_CODE);
+//            } else {
+//                authenticatorActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(authenticatorActivityIntent);
+//            }
+//        });
+//
+//        TextView hostOwnServerTextView = findViewById(R.id.host_own_server);
+//        hostOwnServerTextView.setTextColor(getResources().getColor(R.color.login_text_color));
+//        hostOwnServerTextView.setVisibility(isProviderOrOwnInstallationVisible ? View.VISIBLE : View.GONE);
+//
+//        progressIndicator = findViewById(R.id.progressIndicator);
+//        ViewPager viewPager = findViewById(R.id.contentPanel);
+//
+//        // Sometimes, accounts are not deleted when you uninstall the application so we'll do it now
+//        if (onboarding.isFirstRun()) {
+//            userAccountManager.removeAllAccounts();
+//        }
+//
+//        FeaturesViewAdapter featuresViewAdapter = new FeaturesViewAdapter(getSupportFragmentManager(), getFirstRun());
+//        progressIndicator.setNumberOfSteps(featuresViewAdapter.getCount());
+//        viewPager.setAdapter(featuresViewAdapter);
+//
+//        viewPager.addOnPageChangeListener(this);
     }
 
     private void setSlideshowSize(boolean isLandscape) {
