@@ -12,6 +12,7 @@ import com.owncloud.android.ui.activity.FileDisplayActivity
 import com.owncloud.android.ui.events.SearchEvent
 import com.owncloud.android.utils.ThemeUtils
 import kotlinx.android.synthetic.main.fragment_more.*
+import kotlinx.android.synthetic.main.fragment_shared.*
 import org.parceler.Parcels
 
 class SharedFragment : Fragment() {
@@ -25,26 +26,23 @@ class SharedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = activity as FileDisplayActivity
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_shared_to_me -> {
-                    MainApp.showOnlyFilesOnDevice(false)
-                    showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER_TO_MINE))
-                }
-                R.id.nav_mine_shared-> {
-                    MainApp.showOnlyFilesOnDevice(false)
-                    showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER_MINE))
-                }
-                R.id.nav_shared_link -> {
-                    MainApp.showOnlyFilesOnDevice(false)
-                    showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER_LINK))
-                }
-                else -> {
-                    activity.onNavigationItemClicked(menuItem)
-                }
-            }
-            true
+
+        nav_shared_to_me.setOnClickListener {
+            MainApp.showOnlyFilesOnDevice(false)
+            showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER_TO_MINE))
         }
+
+        nav_mine_shared.setOnClickListener {
+            MainApp.showOnlyFilesOnDevice(false)
+            showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER_MINE))
+        }
+
+        nav_shared_link.setOnClickListener {
+            MainApp.showOnlyFilesOnDevice(false)
+            showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER_LINK))
+        }
+
+
         (activity as? FileDisplayActivity)?.setupToolbar()
         ThemeUtils.setColoredTitle(
             (activity as FileDisplayActivity?)?.supportActionBar,
@@ -74,7 +72,7 @@ class SharedFragment : Fragment() {
         childFragmentManager.beginTransaction()
             .replace(R.id.container, fragment, FileDisplayActivity.TAG_LIST_OF_FILES)
             .commit()
-        navView.visibility = View.GONE
+        contentView.visibility = View.GONE
         fileFragment = fragment
     }
 
@@ -85,7 +83,7 @@ class SharedFragment : Fragment() {
                 .commit()
         }
         fileFragment = null
-        navView.visibility = View.VISIBLE
+        contentView.visibility = View.VISIBLE
     }
 
 
