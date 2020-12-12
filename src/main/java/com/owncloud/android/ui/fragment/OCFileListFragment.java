@@ -172,6 +172,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
     public static final String SEARCH_EVENT = "SEARCH_EVENT";
 
+    public static final String SEARCH_EVENT_TITLE = "SEARCH_EVENT_TITLE";
+
+    public static final String FOLDER_TYPE = "FOLDER_TYPE";
+
     private static final String KEY_FILE = MY_PACKAGE + ".extra.FILE";
 
     protected static final String KEY_CURRENT_SEARCH_TYPE = "CURRENT_SEARCH_TYPE";
@@ -181,6 +185,11 @@ public class OCFileListFragment extends ExtendedListFragment implements
 
     private static final int SINGLE_SELECTION = 1;
     private static final int NOT_ENOUGH_SPACE_FRAG_REQUEST_CODE = 2;
+
+    public static final int FOLDER_TYPE_ALL = 0;
+    public static final int FOLDER_TYPE_MINE_ZONE = 1;
+    public static final int FOLDER_TYPE_GROUP = 2;
+    public static final int FOLDER_TYPE_PUBLIC  = 3;
 
     @Inject AppPreferences preferences;
     @Inject UserAccountManager accountManager;
@@ -203,6 +212,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
     protected AsyncTask<Void, Void, Boolean> remoteOperationAsyncTask;
     protected String mLimitToMimeType;
     private FloatingActionButton mFabMain;
+
+    private String fileTitle;
+
+    private int folderType;
 
     public @Inject DeviceInfo deviceInfo;
 
@@ -228,6 +241,9 @@ public class OCFileListFragment extends ExtendedListFragment implements
             searchEvent = Parcels.unwrap(savedInstanceState.getParcelable(OCFileListFragment.SEARCH_EVENT));
             mFile = savedInstanceState.getParcelable(KEY_FILE);
         }
+
+        fileTitle = getArguments().getString(OCFileListFragment.SEARCH_EVENT_TITLE);
+        folderType = getArguments().getInt(OCFileListFragment.FOLDER_TYPE,FOLDER_TYPE_ALL);
 
         searchFragment = currentSearchType != null && isSearchEventSet(searchEvent);
     }
@@ -396,7 +412,8 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
 
         FragmentActivity fragmentActivity;
-        if ((fragmentActivity = getActivity()) != null && fragmentActivity instanceof FileDisplayActivity) {
+        if ((fragmentActivity = getActivity()) != null && fragmentActivity instanceof FileDisplayActivity
+            && TextUtils.isEmpty(fileTitle)) {
             FileDisplayActivity fileDisplayActivity = (FileDisplayActivity) fragmentActivity;
             fileDisplayActivity.updateActionBarTitleAndHomeButton(fileDisplayActivity.getCurrentDir());
         }
@@ -1267,8 +1284,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
                     directory,
                     storageManager,
                     onlyOnDevice,
-                    mLimitToMimeType
-                                      );
+                    mLimitToMimeType,folderType);
 
                 OCFile previousDirectory = mFile;
                 mFile = directory;
@@ -1428,7 +1444,11 @@ public class OCFileListFragment extends ExtendedListFragment implements
                     setTitle(R.string.etm_shared_mine);
                     break;
                 default:
-                    setTitle(ThemeUtils.getDefaultDisplayNameForRootFolder(getContext()));
+                    if (!TextUtils.isEmpty(fileTitle)) {
+                        setTitle(fileTitle);
+                    } else {
+                        setTitle(ThemeUtils.getDefaultDisplayNameForRootFolder(getContext()));
+                    }
                     break;
             }
         }
@@ -1585,11 +1605,11 @@ public class OCFileListFragment extends ExtendedListFragment implements
                         if (remoteOperationResult.getData() == null || remoteOperationResult.getData().size() == 0) {
                             setEmptyView(event);
                         } else {
-                            if (currentSearchType == SearchType.SHARED_FILTER_LINK){
+                            if (currentSearchType == SearchType.SHARED_FILTER_LINK) {
                                 List linkData = new ArrayList();
-                                for (int i = 0;i< remoteOperationResult.getData().size();i++){
-                                    if (remoteOperationResult.getData().get(i) instanceof OCShare){
-                                        if((((OCShare) remoteOperationResult.getData().get(i)).getShareType() == ShareType.PUBLIC_LINK)) {
+                                for (int i = 0; i < remoteOperationResult.getData().size(); i++) {
+                                    if (remoteOperationResult.getData().get(i) instanceof OCShare) {
+                                        if ((((OCShare) remoteOperationResult.getData().get(i)).getShareType() == ShareType.PUBLIC_LINK)) {
                                             linkData.add(remoteOperationResult.getData().get(i));
                                         }
                                     }
@@ -1599,7 +1619,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
                                                  storageManager,
                                                  mFile,
                                                  true);
-                            }else {
+                            } else {
                                 mAdapter.setData(remoteOperationResult.getData(),
                                                  currentSearchType,
                                                  storageManager,
@@ -1640,14 +1660,14 @@ public class OCFileListFragment extends ExtendedListFragment implements
         remoteOperationAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public SearchRemoteOperation.SearchType getSearchType(SearchType type){
-        if (type == SearchType.SHARED_FILTER_LINK){
+    public SearchRemoteOperation.SearchType getSearchType(SearchType type) {
+        if (type == SearchType.SHARED_FILTER_LINK) {
             return SHARED_FILTER_LINK;
-        }else if(type == SearchType.SHARED_FILTER_MINE){
+        } else if (type == SearchType.SHARED_FILTER_MINE) {
             return SHARED_FILTER_MINE;
-        }else if(type == SearchType.SHARED_FILTER_TO_MINE){
+        } else if (type == SearchType.SHARED_FILTER_TO_MINE) {
             return SHARED_FILTER_TO_MINE;
-        }else {
+        } else {
             return SHARED_FILTER;
         }
     }

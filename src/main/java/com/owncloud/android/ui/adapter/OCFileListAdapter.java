@@ -900,8 +900,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         User account,
         OCFile directory,
         FileDataStorageManager updatedStorageManager,
-        boolean onlyOnDevice, String limitToMimeType
-    ) {
+        boolean onlyOnDevice, String limitToMimeType,int folderType) {
         this.onlyOnDevice = onlyOnDevice;
 
         if (updatedStorageManager != null && !updatedStorageManager.equals(mStorageManager)) {
@@ -910,7 +909,7 @@ public class OCFileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             this.user = account;
         }
         if (mStorageManager != null) {
-            mFiles = mStorageManager.getFolderContent(directory, onlyOnDevice);
+            mFiles = mStorageManager.getFolderContent(directory, onlyOnDevice,folderType);
 
             if (!preferences.isShowHiddenFilesEnabled()) {
                 mFiles = filterHiddenFiles(mFiles);

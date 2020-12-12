@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.owncloud.android.MainApp
 import com.owncloud.android.R
-import com.owncloud.android.lib.resources.files.SearchRemoteOperation
 import com.owncloud.android.ui.activity.FileDisplayActivity
 import com.owncloud.android.ui.events.SearchEvent
 import kotlinx.android.synthetic.main.fragment_all_file_home.*
@@ -27,26 +25,27 @@ class HomeAllFileFragment : Fragment() {
         val activity = activity as FileDisplayActivity
 
         nav_mine_zone.setOnClickListener {
-
+            showFiles(null,menuItem.title.toString(),OCFileListFragment.FOLDER_TYPE_MINE_ZONE)
         }
 
         nav_group_zone.setOnClickListener {
-            MainApp.showOnlyFilesOnDevice(false)
-            showFiles(SearchEvent("", SearchRemoteOperation.SearchType.SHARED_FILTER))
+            showFiles(null,menuItem.title.toString(),OCFileListFragment.FOLDER_TYPE_GROUP)
         }
 
         nav_shared_zone.setOnClickListener {
-            MainApp.showOnlyFilesOnDevice(true)
-            showFiles(null)
+            showFiles(null,menuItem.title.toString(),OCFileListFragment.FOLDER_TYPE_PUBLIC)
         }
         (activity as? FileDisplayActivity)?.setupToolbar()
     }
 
-    private fun showFiles(searchEvent: SearchEvent?) {
+    private fun showFiles(searchEvent: SearchEvent?,title:String,folerType:Int) {
         val bundle = Bundle()
         searchEvent?.apply {
             bundle.putParcelable(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent))
         }
+        bundle.putString(OCFileListFragment.SEARCH_EVENT_TITLE, title)
+        bundle.putInt(OCFileListFragment.FOLDER_TYPE, folerType)
+
         val fragment = OCFileListFragment()
         fragment.arguments = bundle
         childFragmentManager.beginTransaction()

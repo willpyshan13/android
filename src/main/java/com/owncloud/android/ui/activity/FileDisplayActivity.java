@@ -1696,7 +1696,6 @@ public class FileDisplayActivity extends FileActivity
         if (mDualPane) {
             // in dual pane mode, keep the focus of title an action bar in the current folder
             super.updateActionBarTitleAndHomeButton(getCurrentDir());
-
         } else {
             super.updateActionBarTitleAndHomeButton(chosenFile);
         }
