@@ -25,15 +25,15 @@ class HomeAllFileFragment : Fragment() {
         val activity = activity as FileDisplayActivity
 
         nav_mine_zone.setOnClickListener {
-            showFiles(null,menuItem.title.toString(),OCFileListFragment.FOLDER_TYPE_MINE_ZONE)
+            showFiles(null,nav_mine_zone.text.toString(),OCFileListFragment.FOLDER_TYPE_MINE_ZONE)
         }
 
         nav_group_zone.setOnClickListener {
-            showFiles(null,menuItem.title.toString(),OCFileListFragment.FOLDER_TYPE_GROUP)
+            showFiles(null,nav_group_zone.text.toString(),OCFileListFragment.FOLDER_TYPE_GROUP)
         }
 
         nav_shared_zone.setOnClickListener {
-            showFiles(null,menuItem.title.toString(),OCFileListFragment.FOLDER_TYPE_PUBLIC)
+            showFiles(null,nav_shared_zone.text.toString(),OCFileListFragment.FOLDER_TYPE_PUBLIC)
         }
         (activity as? FileDisplayActivity)?.setupToolbar()
     }
