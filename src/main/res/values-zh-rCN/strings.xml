@@ -853,4 +853,5 @@
     </plurals>
     <string name="more">更多设置</string>
     <string name="change_account_tip">如果目标服务器不可用，将切换回登录页面，是否继续?</string>
+    <string name="company_desc">赛凡智云 - 轻松管理您的数据资产</string>
 </resources>

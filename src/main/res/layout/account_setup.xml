@@ -19,181 +19,138 @@
   You should have received a copy of the GNU Affero General Public
   License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scroll"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/scroll"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:fillViewport="true"
-    android:orientation="vertical">
+    tools:background="@color/primary"
+    >
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        tools:background="@color/primary"
-        android:padding="@dimen/standard_padding">
-
-        <ImageView
-            android:id="@+id/thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/standard_padding"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/logo" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fillViewport="true"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/standard_half_padding">
+            android:padding="@dimen/standard_padding">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <requestFocus />
-
-                <EditText
-                    android:id="@+id/host_url_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@color/white"
-                    android:textColorHint="#7f7f7f"
-                    android:hint="@string/auth_host_url"
-                    android:paddingStart="10dp"
-                    android:contentDescription="@string/auth_host_address"
-                    android:paddingEnd="@dimen/alternate_padding_right"
-                    android:textSize="16sp"
-                    android:inputType="textUri"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <ImageView
-                    android:id="@+id/scan_qr"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:padding="6dp"
-                    android:src="@drawable/qrcode_scan"
-                    android:layout_marginEnd="6dp"
-                    app:tint="#353535"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <!--            <FrameLayout-->
-            <!--                android:id="@+id/host_url_frame"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginBottom="@dimen/zero"-->
-            <!--                android:background="@color/primary">-->
-
-            <!--                <LinearLayout-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:orientation="vertical">-->
-
-            <!--                    <TextView-->
-            <!--                        android:id="@+id/edit_text"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:ems="10"-->
-            <!--                        android:text="@string/auth_host_url"-->
-            <!--                        android:textColor="@color/login_text_color" />-->
-
-            <!--                    <com.google.android.material.textfield.TextInputEditText-->
-            <!--                        android:id="@+id/host_url_input"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_gravity="bottom"-->
-            <!--                        android:contentDescription="@string/auth_host_address"-->
-            <!--                        android:drawablePadding="@dimen/alternate_half_padding"-->
-            <!--                        android:inputType="textUri"-->
-            <!--                        android:paddingStart="@dimen/zero"-->
-            <!--                        android:paddingEnd="@dimen/alternate_padding_right"-->
-            <!--                        android:textColor="@color/login_text_color"-->
-            <!--                        android:textColorHint="@color/login_text_color">-->
-
-            <!--                        <requestFocus />-->
-
-            <!--                    </com.google.android.material.textfield.TextInputEditText>-->
-
-            <!--                </LinearLayout>-->
-
-            <!--                <ImageButton-->
-            <!--                    android:id="@+id/test_server_button"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_gravity="center_vertical|end"-->
-            <!--                    android:layout_marginEnd="@dimen/alternate_half_padding"-->
-            <!--                    android:background="@android:color/transparent"-->
-            <!--                    android:contentDescription="@string/test_server_button"-->
-            <!--                    android:onClick="onTestServerConnectionClick"-->
-            <!--                    android:padding="@dimen/zero"-->
-            <!--                    android:scaleType="fitCenter"-->
-            <!--                    android:src="@drawable/arrow_right"-->
-            <!--                    android:tint="@color/login_text_color" />-->
-
-            <!--            </FrameLayout>-->
-
-            <TextView
-                android:id="@+id/server_status_text"
+            <ImageView
+                android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/alternate_margin"
-                android:contentDescription="@string/auth_testing_connection"
-                android:drawablePadding="@dimen/alternate_half_padding"
-                android:gravity="center_vertical"
-                android:minHeight="@dimen/display_text_min_height"
-                android:text="@string/auth_testing_connection"
-                android:textColor="@color/login_text_color"
-                android:visibility="invisible"
-                app:drawableStartCompat="@android:drawable/stat_notify_sync" />
+                android:layout_marginBottom="@dimen/standard_padding"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/logo" />
 
-            <TextView
-                android:id="@+id/auth_status_text"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/auth_unauthorized"
-                android:drawablePadding="@dimen/alternate_half_padding"
-                android:gravity="center_vertical"
-                android:text="@string/auth_unauthorized"
-                android:textColor="@color/login_text_color"
-                app:drawableStartCompat="@android:drawable/stat_notify_sync" />
-
-
-            <TextView
-                android:id="@+id/test_server_button"
-                android:layout_width="280dp"
-                android:layout_height="40dp"
-                android:text="前往"
-                android:textSize="16sp"
-                android:textColor="@color/white"
                 android:gravity="center"
-                android:onClick="onTestServerConnectionClick"
-                android:background="@drawable/account_btn_bg"
-                />
+                android:orientation="vertical"
+                android:padding="@dimen/standard_half_padding">
 
-<!--            <ImageButton-->
-<!--                android:id="@+id/scan_qr"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@color/transparent"-->
-<!--                android:contentDescription="@string/scanQR_description"-->
-<!--                android:src="@drawable/qrcode_scan"-->
-<!--                android:theme="@style/Button.Login" />-->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <requestFocus />
+
+                    <EditText
+                        android:id="@+id/host_url_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@color/white"
+                        android:contentDescription="@string/auth_host_address"
+                        android:hint="@string/auth_host_url"
+                        android:inputType="textUri"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="@dimen/alternate_padding_right"
+                        android:textColorHint="#7f7f7f"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <ImageView
+                        android:id="@+id/scan_qr"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="6dp"
+                        android:padding="6dp"
+                        android:src="@drawable/qrcode_scan"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="#353535" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/server_status_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/alternate_margin"
+                    android:contentDescription="@string/auth_testing_connection"
+                    android:drawablePadding="@dimen/alternate_half_padding"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/display_text_min_height"
+                    android:text="@string/auth_testing_connection"
+                    android:textColor="@color/login_text_color"
+                    android:visibility="invisible"
+                    app:drawableStartCompat="@android:drawable/stat_notify_sync" />
+
+                <TextView
+                    android:id="@+id/auth_status_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/auth_unauthorized"
+                    android:drawablePadding="@dimen/alternate_half_padding"
+                    android:gravity="center_vertical"
+                    android:text="@string/auth_unauthorized"
+                    android:textColor="@color/login_text_color"
+                    app:drawableStartCompat="@android:drawable/stat_notify_sync" />
+
+
+                <TextView
+                    android:id="@+id/test_server_button"
+                    android:layout_width="280dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/account_btn_bg"
+                    android:gravity="center"
+                    android:onClick="onTestServerConnectionClick"
+                    android:text="前往"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="@string/company_desc"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

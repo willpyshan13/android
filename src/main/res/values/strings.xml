@@ -956,4 +956,5 @@
     <string name="player_stop">stop</string>
     <string name="player_toggle">toggle</string>
     <string name="change_account_tip">If the target server is not available, it will switch back to the login page. Do you want to continue?</string>
+    <string name="company_desc">赛凡智云 - 轻松管理您的数据资产</string>
 </resources>
