@@ -545,7 +545,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
         ImageView scanQR = findViewById(R.id.scan_qr);
         if (deviceInfo.hasCamera(this)) {
             scanQR.setOnClickListener(v -> onScan());
-            ThemeUtils.tintDrawable(scanQR.getDrawable(), getResources().getColor(R.color.login_text_color));
         } else {
             scanQR.setVisibility(View.GONE);
         }
