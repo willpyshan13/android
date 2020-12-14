@@ -5,16 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.nextcloud.client.device.DeviceInfo
 import com.owncloud.android.R
+import com.owncloud.android.datamodel.OCFile
 import com.owncloud.android.ui.activity.FileDisplayActivity
 import com.owncloud.android.ui.events.SearchEvent
 import kotlinx.android.synthetic.main.fragment_all_file_home.*
-import kotlinx.android.synthetic.main.fragment_more.*
 import org.parceler.Parcels
+import javax.inject.Inject
 
 class HomeAllFileFragment : Fragment() {
 
-    private var fileFragment: Fragment? = null
+    private var fileFragment: OCFileListFragment? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_all_file_home, container, false)
@@ -25,20 +27,20 @@ class HomeAllFileFragment : Fragment() {
         val activity = activity as FileDisplayActivity
 
         nav_mine_zone.setOnClickListener {
-            showFiles(null,nav_mine_zone_text.text.toString(),OCFileListFragment.FOLDER_TYPE_MINE_ZONE)
+            showFiles(null, nav_mine_zone_text.text.toString(), OCFileListFragment.FOLDER_TYPE_MINE_ZONE)
         }
 
         nav_group_zone.setOnClickListener {
-            showFiles(null,nav_group_zone_text.text.toString(),OCFileListFragment.FOLDER_TYPE_GROUP)
+            showFiles(null, nav_group_zone_text.text.toString(), OCFileListFragment.FOLDER_TYPE_GROUP)
         }
 
         nav_shared_zone.setOnClickListener {
-            showFiles(null,nav_shared_zone_text.text.toString(),OCFileListFragment.FOLDER_TYPE_PUBLIC)
+            showFiles(null, nav_shared_zone_text.text.toString(), OCFileListFragment.FOLDER_TYPE_PUBLIC)
         }
-        (activity as? FileDisplayActivity)?.setupToolbar()
+        (activity as? FileDisplayActivity)?.setupHomeSearchToolbar()
     }
 
-    private fun showFiles(searchEvent: SearchEvent?,title:String,folerType:Int) {
+    private fun showFiles(searchEvent: SearchEvent?, title: String, folerType: Int) {
         val bundle = Bundle()
         searchEvent?.apply {
             bundle.putParcelable(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(searchEvent))
@@ -53,6 +55,22 @@ class HomeAllFileFragment : Fragment() {
             .commit()
         contentView.visibility = View.GONE
         fileFragment = fragment
+    }
+
+    fun getCurrentFile():OCFile?{
+        return if (fileFragment==null){
+            null
+        }else{
+            fileFragment!!.currentFile
+        }
+    }
+
+    fun getDevicesInfo():DeviceInfo?{
+        return if (fileFragment==null){
+            null
+        }else{
+            fileFragment!!.deviceInfo
+        }
     }
 
     fun getListOfFilesFragment(): OCFileListFragment? {

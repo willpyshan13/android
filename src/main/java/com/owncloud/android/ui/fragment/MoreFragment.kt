@@ -81,7 +81,6 @@ class MoreFragment : Fragment() {
             }
             true
         }
-        (activity as? FileDisplayActivity)?.setupToolbar()
         ThemeUtils.setColoredTitle(
             (activity as FileDisplayActivity?)?.supportActionBar,
             getString(R.string.more), context

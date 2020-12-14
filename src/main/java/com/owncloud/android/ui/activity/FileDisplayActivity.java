@@ -108,6 +108,7 @@ import com.owncloud.android.ui.fragment.FileFragment;
 import com.owncloud.android.ui.fragment.HomeAllFileFragment;
 import com.owncloud.android.ui.fragment.MoreFragment;
 import com.owncloud.android.ui.fragment.GalleryFragment;
+import com.owncloud.android.ui.fragment.OCFileListBottomSheetDialog;
 import com.owncloud.android.ui.fragment.OCFileListFragment;
 import com.owncloud.android.ui.fragment.SharedFragment;
 import com.owncloud.android.ui.fragment.TaskRetainerFragment;
@@ -313,8 +314,7 @@ public class FileDisplayActivity extends FileActivity
                     switch (menuItem.getItemId()) {
                         case R.id.nav_all_files:
                             fileDisplayPage.show(FileDisplayActivity.this, fileDisplayPage.homeFragment);
-                            showSortListGroup(true);
-                            setupHomeSearchToolbarWithSortAndListButtons();
+                            setupHomeSearchToolbar();
                             break;
                         case R.id.nav_favorites:
                             fileDisplayPage.show(FileDisplayActivity.this, fileDisplayPage.favFragment);
@@ -2605,17 +2605,17 @@ public class FileDisplayActivity extends FileActivity
     public void registerFabListener() {
         FileActivity activity = (FileActivity) getActivity();
         ThemeUtils.colorFloatingActionButton(binding.fabMain, R.drawable.ic_plus, this);
-//        binding.fabMain.setOnClickListener(v -> {
-//            if (fileDisplayPage.homeFragment.getCurrentFile() == null) {
-//                return;
-//            }
-//            new OCFileListBottomSheetDialog(activity,
-//                                            fileDisplayPage.homeFragment,
-//                                            fileDisplayPage.homeFragment.deviceInfo,
-//                                            accountManager.getUser(),
-//                                            fileDisplayPage.homeFragment.getCurrentFile())
-//                .show();
-//        });
+        binding.fabMain.setOnClickListener(v -> {
+            if (fileDisplayPage.homeFragment.getCurrentFile() == null) {
+                return;
+            }
+            new OCFileListBottomSheetDialog(activity,
+                                            fileDisplayPage.favFragment,
+                                            fileDisplayPage.homeFragment.getDevicesInfo(),
+                                            accountManager.getUser(),
+                                            fileDisplayPage.homeFragment.getCurrentFile())
+                .show();
+        });
     }
 
     private boolean isWifi = false;

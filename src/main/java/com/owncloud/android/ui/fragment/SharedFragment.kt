@@ -43,7 +43,6 @@ class SharedFragment : Fragment() {
         }
 
 
-        (activity as? FileDisplayActivity)?.setupToolbar()
         ThemeUtils.setColoredTitle(
             (activity as FileDisplayActivity?)?.supportActionBar,
             getString(R.string.share), context

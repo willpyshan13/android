@@ -129,6 +129,10 @@ public abstract class ToolbarActivity extends BaseActivity {
         setupToolbar(true, true);
     }
 
+    public void setupHomeSearchToolbar() {
+        setupToolbar(true, false);
+    }
+
     /**
      * Updates title bar and home buttons (state and icon).
      */
