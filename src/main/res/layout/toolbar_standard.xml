@@ -151,6 +151,7 @@
                     style="@style/Widget.AppTheme.Button.IconButton"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
+                    android:visibility="gone"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/action_switch_grid_view"
                     app:cornerRadius="@dimen/button_corner_radius"

@@ -16,42 +16,83 @@
         app:layout_constraintBottom_toTopOf="@+id/space"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/nav_mine_zone"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:drawableStart="@drawable/folder_group"
-            android:drawablePadding="12dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:text="@string/etm_mine_zone"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:layout_marginStart="16dp"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@mipmap/base_icon_folder_mine"
+                android:scaleType="centerCrop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
 
+            <TextView
+                android:id="@+id/nav_mine_zone_text"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:text="@string/etm_mine_zone"
+                android:textColor="#333333"
+                android:textSize="16sp" />
 
-        <TextView
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/nav_group_zone"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:drawableStart="@drawable/folder_group_yellow"
-            android:drawablePadding="12dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:text="@string/etm_group_zone"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:layout_marginStart="16dp"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@mipmap/base_icon_folder_group"
+                android:scaleType="centerCrop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
 
-        <TextView
+            <TextView
+                android:id="@+id/nav_group_zone_text"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:text="@string/etm_group_zone"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/nav_shared_zone"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:drawableStart="@drawable/folder"
-            android:drawablePadding="12dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:text="@string/etm_shared_zone"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:layout_marginStart="16dp"
+            android:layout_height="60dp">
+            <ImageView
+                android:src="@mipmap/base_icon_folder_public"
+                android:scaleType="centerCrop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:id="@+id/nav_shared_zone_text"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:text="@string/etm_shared_zone"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
