@@ -12,7 +12,6 @@ import com.owncloud.android.ui.activity.FileDisplayActivity
 import com.owncloud.android.ui.events.SearchEvent
 import kotlinx.android.synthetic.main.fragment_all_file_home.*
 import org.parceler.Parcels
-import javax.inject.Inject
 
 class HomeAllFileFragment : Fragment() {
 

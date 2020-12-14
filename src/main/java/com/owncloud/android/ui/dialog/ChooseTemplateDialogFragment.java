@@ -210,14 +210,16 @@ public class ChooseTemplateDialogFragment extends DialogFragment implements Dial
     @Override
     public void onClick(Template template) {
         String name = fileName.getText().toString();
-        String path = parentFolder.getRemotePath() + name;
+        if (parentFolder!=null) {
+            String path = parentFolder.getRemotePath() + name;
 
-        if (name.isEmpty() || name.equalsIgnoreCase(DOT + template.getExtension())) {
-            DisplayUtils.showSnackMessage(listView, R.string.enter_filename);
-        } else if (!name.endsWith(template.getExtension())) {
-            createFromTemplate(template, path + DOT + template.getExtension());
-        } else {
-            createFromTemplate(template, path);
+            if (name.isEmpty() || name.equalsIgnoreCase(DOT + template.getExtension())) {
+                DisplayUtils.showSnackMessage(listView, R.string.enter_filename);
+            } else if (!name.endsWith(template.getExtension())) {
+                createFromTemplate(template, path + DOT + template.getExtension());
+            } else {
+                createFromTemplate(template, path);
+            }
         }
     }
 

@@ -516,6 +516,7 @@ public class FileDisplayActivity extends FileActivity
 
     private void createMinFragments(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
+            fileDisplayPage.show(this, fileDisplayPage.favFragment);
             fileDisplayPage.show(this, fileDisplayPage.homeFragment);
         } else {
             getSupportFragmentManager().findFragmentByTag(TAG_LIST_OF_FILES);
