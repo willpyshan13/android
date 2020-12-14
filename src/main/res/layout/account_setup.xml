@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="80dp"
             android:padding="@dimen/standard_padding">
 
             <ImageView
@@ -68,7 +68,7 @@
                     <EditText
                         android:id="@+id/host_url_input"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="50dp"
                         android:background="@color/white"
                         android:contentDescription="@string/auth_host_address"
                         android:hint="@string/auth_host_url"
@@ -84,9 +84,9 @@
 
                     <ImageView
                         android:id="@+id/scan_qr"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="8dp"
                         android:padding="6dp"
                         android:src="@drawable/qrcode_scan"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -152,6 +152,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

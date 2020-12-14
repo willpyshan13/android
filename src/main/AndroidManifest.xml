@@ -292,6 +292,7 @@
             android:name=".authentication.AuthenticatorActivity"
             android:exported="true"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.ownCloud.noActionBar.Login">
             <intent-filter>
