@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class FileDisplayPage {
 
-    public HomeAllFileFragment homeFragment = new HomeAllFileFragment();
+    public OCFileListFragment homeFragment = new OCFileListFragment();
     public SharedFragment sharedFragment = new SharedFragment();
     public OCFileListFragment favFragment = new OCFileListFragment();
     public MoreFragment moreFragment = new MoreFragment();

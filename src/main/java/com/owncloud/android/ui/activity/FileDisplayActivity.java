@@ -2611,8 +2611,8 @@ public class FileDisplayActivity extends FileActivity
                 return;
             }
             new OCFileListBottomSheetDialog(activity,
-                                            fileDisplayPage.favFragment,
-                                            fileDisplayPage.homeFragment.getDevicesInfo(),
+                                            fileDisplayPage.homeFragment,
+                                            fileDisplayPage.homeFragment.deviceInfo,
                                             accountManager.getUser(),
                                             fileDisplayPage.homeFragment.getCurrentFile())
                 .show();
