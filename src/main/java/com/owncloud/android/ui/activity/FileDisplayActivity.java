@@ -516,7 +516,7 @@ public class FileDisplayActivity extends FileActivity
 
     private void createMinFragments(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            fileDisplayPage.show(this, fileDisplayPage.favFragment);
+            fileDisplayPage.show(this, fileDisplayPage.baseFragment);
             fileDisplayPage.show(this, fileDisplayPage.homeFragment);
         } else {
             getSupportFragmentManager().findFragmentByTag(TAG_LIST_OF_FILES);
@@ -2607,14 +2607,14 @@ public class FileDisplayActivity extends FileActivity
         FileActivity activity = (FileActivity) getActivity();
         ThemeUtils.colorFloatingActionButton(binding.fabMain, R.drawable.ic_plus, this);
         binding.fabMain.setOnClickListener(v -> {
-            if (fileDisplayPage.homeFragment.getCurrentFile() == null) {
+            if (fileDisplayPage.baseFragment.getCurrentFile() == null) {
                 return;
             }
             new OCFileListBottomSheetDialog(activity,
-                                            fileDisplayPage.homeFragment,
-                                            fileDisplayPage.homeFragment.deviceInfo,
+                                            fileDisplayPage.baseFragment,
+                                            fileDisplayPage.baseFragment.deviceInfo,
                                             accountManager.getUser(),
-                                            fileDisplayPage.homeFragment.getCurrentFile())
+                                            fileDisplayPage.baseFragment.getCurrentFile())
                 .show();
         });
     }

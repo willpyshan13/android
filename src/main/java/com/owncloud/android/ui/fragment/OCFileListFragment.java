@@ -189,7 +189,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
     public static final int FOLDER_TYPE_ALL = 0;
     public static final int FOLDER_TYPE_MINE_ZONE = 1;
     public static final int FOLDER_TYPE_GROUP = 2;
-    public static final int FOLDER_TYPE_PUBLIC = 3;
+    public static final int FOLDER_TYPE_PUBLIC  = 3;
 
     @Inject AppPreferences preferences;
     @Inject UserAccountManager accountManager;
@@ -241,10 +241,10 @@ public class OCFileListFragment extends ExtendedListFragment implements
             searchEvent = Parcels.unwrap(savedInstanceState.getParcelable(OCFileListFragment.SEARCH_EVENT));
             mFile = savedInstanceState.getParcelable(KEY_FILE);
         }
-
-        fileTitle = getArguments().getString(OCFileListFragment.SEARCH_EVENT_TITLE);
-        folderType = getArguments().getInt(OCFileListFragment.FOLDER_TYPE, FOLDER_TYPE_ALL);
-
+        if (getArguments()!=null) {
+            fileTitle = getArguments().getString(OCFileListFragment.SEARCH_EVENT_TITLE);
+            folderType = getArguments().getInt(OCFileListFragment.FOLDER_TYPE, FOLDER_TYPE_ALL);
+        }
         searchFragment = currentSearchType != null && isSearchEventSet(searchEvent);
     }
 

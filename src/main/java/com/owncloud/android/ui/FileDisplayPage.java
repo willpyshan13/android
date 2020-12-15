@@ -19,8 +19,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 public class FileDisplayPage {
-
-    public OCFileListFragment homeFragment = new OCFileListFragment();
+    public OCFileListFragment baseFragment = new OCFileListFragment();
+    public HomeAllFileFragment homeFragment = new HomeAllFileFragment();
     public SharedFragment sharedFragment = new SharedFragment();
     public OCFileListFragment favFragment = new OCFileListFragment();
     public MoreFragment moreFragment = new MoreFragment();
@@ -35,11 +35,7 @@ public class FileDisplayPage {
         Bundle favBundle = new Bundle();
         favBundle.putParcelable(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(favSearchEvent));
         favFragment.setArguments(favBundle);
-
-        SearchEvent photoSearchEvent = new SearchEvent("image/%", SearchRemoteOperation.SearchType.PHOTO_SEARCH);
-        Bundle photoBundle = new Bundle();
-        photoBundle.putParcelable(OCFileListFragment.SEARCH_EVENT, Parcels.wrap(photoSearchEvent));
-        sharedFragment.setArguments(photoBundle);
+        baseFragment.setArguments(args);
     }
 
     public void show(FragmentActivity activity, Fragment fragment) {
