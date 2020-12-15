@@ -189,7 +189,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
     public static final int FOLDER_TYPE_ALL = 0;
     public static final int FOLDER_TYPE_MINE_ZONE = 1;
     public static final int FOLDER_TYPE_GROUP = 2;
-    public static final int FOLDER_TYPE_PUBLIC  = 3;
+    public static final int FOLDER_TYPE_PUBLIC = 3;
 
     @Inject AppPreferences preferences;
     @Inject UserAccountManager accountManager;
@@ -243,7 +243,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }
 
         fileTitle = getArguments().getString(OCFileListFragment.SEARCH_EVENT_TITLE);
-        folderType = getArguments().getInt(OCFileListFragment.FOLDER_TYPE,FOLDER_TYPE_ALL);
+        folderType = getArguments().getInt(OCFileListFragment.FOLDER_TYPE, FOLDER_TYPE_ALL);
 
         searchFragment = currentSearchType != null && isSearchEventSet(searchEvent);
     }
@@ -832,7 +832,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
      * return       Count of folder levels browsed up.
      */
     public int onBrowseUp() {
-        OCFile parentDir;
+        OCFile parentDir = null;
         int moveCount = 0;
 
         if (mFile != null) {
@@ -841,20 +841,31 @@ public class OCFileListFragment extends ExtendedListFragment implements
             String parentPath = null;
             if (mFile.getParentId() != FileDataStorageManager.ROOT_PARENT_ID) {
                 parentPath = new File(mFile.getRemotePath()).getParent();
-                parentPath = parentPath.endsWith(OCFile.PATH_SEPARATOR) ? parentPath :
-                    parentPath + OCFile.PATH_SEPARATOR;
-                parentDir = storageManager.getFileByPath(parentPath);
+                if (isShareType() && parentPath.equals("/")) {
+                    onMessageEvent(searchEvent);
+                    listDirectory(MainApp.isOnlyOnDevice(), false);
+                } else {
+                    parentPath = parentPath.endsWith(OCFile.PATH_SEPARATOR) ? parentPath : parentPath + OCFile.PATH_SEPARATOR;
+                    parentDir = storageManager.getFileByPath(parentPath);
+                }
                 moveCount++;
             } else {
                 parentDir = storageManager.getFileByPath(ROOT_PATH);
             }
-            while (parentDir == null) {
-                parentPath = new File(parentPath).getParent();
-                parentPath = parentPath.endsWith(OCFile.PATH_SEPARATOR) ? parentPath :
-                    parentPath + OCFile.PATH_SEPARATOR;
-                parentDir = storageManager.getFileByPath(parentPath);
-                moveCount++;
-            }   // exit is granted because storageManager.getFileByPath("/") never returns null
+
+            if (isShareType()) {
+                if (parentDir == null) {
+                    parentDir = storageManager.getFileByPath(ROOT_PATH);
+                    moveCount++;
+                }
+            } else {
+                while (parentDir == null) {
+                    parentPath = new File(parentPath).getParent();
+                    parentPath = parentPath.endsWith(OCFile.PATH_SEPARATOR) ? parentPath : parentPath + OCFile.PATH_SEPARATOR;
+                    parentDir = storageManager.getFileByPath(parentPath);
+                    moveCount++;
+                }
+            }
             mFile = parentDir;
 
             listDirectory(mFile, MainApp.isOnlyOnDevice(), false);
@@ -867,6 +878,13 @@ public class OCFileListFragment extends ExtendedListFragment implements
         }   // else - should never happen now
 
         return moveCount;
+    }
+
+
+    private boolean isShareType() {
+        return searchEvent != null && (searchEvent.searchType == SHARED_FILTER_MINE ||
+            searchEvent.searchType == SHARED_FILTER_TO_MINE ||
+            searchEvent.searchType == SHARED_FILTER_LINK);
     }
 
     /**
@@ -1284,7 +1302,7 @@ public class OCFileListFragment extends ExtendedListFragment implements
                     directory,
                     storageManager,
                     onlyOnDevice,
-                    mLimitToMimeType,folderType);
+                    mLimitToMimeType, folderType);
 
                 OCFile previousDirectory = mFile;
                 mFile = directory;
