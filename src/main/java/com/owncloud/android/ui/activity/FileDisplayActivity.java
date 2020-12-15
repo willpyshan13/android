@@ -320,16 +320,19 @@ public class FileDisplayActivity extends FileActivity
                             fileDisplayPage.show(FileDisplayActivity.this, fileDisplayPage.favFragment);
                             showSortListGroup(false);
                             setupToolbar();
+                            hideRootLogo();
                             break;
                         case R.id.nav_shared:
                             fileDisplayPage.show(FileDisplayActivity.this, fileDisplayPage.sharedFragment);
                             showSortListGroup(false);
                             setupToolbar();
+                            hideRootLogo();
                             break;
                         case R.id.nav_more:
                             fileDisplayPage.show(FileDisplayActivity.this, fileDisplayPage.moreFragment);
                             showSortListGroup(false);
                             setupToolbar();
+                            hideRootLogo();
                             break;
                     }
                     OCFileListFragment fragment = getListOfFilesFragment();

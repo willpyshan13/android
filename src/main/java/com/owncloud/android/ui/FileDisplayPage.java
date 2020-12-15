@@ -38,8 +38,6 @@ public class FileDisplayPage {
         baseFragment.setArguments(args);
     }
 
-
-
     public void show(FragmentActivity activity, Fragment fragment) {
         currentFragment = fragment;
         if (isShow(fragment)) {
@@ -62,7 +60,6 @@ public class FileDisplayPage {
         }
 
         transaction.commit();
-
     }
 
     public void hideAllWithout(FragmentActivity activity, Fragment fragment) {
