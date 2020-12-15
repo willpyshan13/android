@@ -38,6 +38,8 @@ public class FileDisplayPage {
         baseFragment.setArguments(args);
     }
 
+
+
     public void show(FragmentActivity activity, Fragment fragment) {
         currentFragment = fragment;
         if (isShow(fragment)) {
@@ -54,11 +56,20 @@ public class FileDisplayPage {
         } else {
             transaction.add(R.id.left_fragment_container, fragment, FileDisplayActivity.TAG_LIST_OF_FILES);
         }
+
+        if (!baseFragment.isAdded()){
+            transaction.add(R.id.base_fragment_container, baseFragment, FileDisplayActivity.TAG_LIST_OF_FILES);
+        }
+
         transaction.commit();
+
     }
 
     public void hideAllWithout(FragmentActivity activity, Fragment fragment) {
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        if (baseFragment != fragment && isShow(baseFragment)) {
+            transaction.hide(baseFragment);
+        }
         if (homeFragment != fragment && isShow(homeFragment)) {
             transaction.hide(homeFragment);
         }
